@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDD-курс «Управляемая разработка с ИИ» — LXD course design</title>
+<style>
+  :root{
+    --paper:#faf7f2; --paper2:#ffffff; --ink:#1c1917; --muted:#6f6557;
+    --soft:#9a9082; --rule:rgba(28,25,23,0.14); --accent:#b5523a;
+    --tint:#f0ddd6; --link:#2e5aa8; --olive:#5f6b45; --ok:#3f7d4e;
+    --warn:#b5523a; --band:#f4ece2;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:-apple-system,"Segoe UI",Roboto,system-ui,sans-serif;
+    font-size:15px;line-height:1.55;}
+  .wrap{display:grid;grid-template-columns:248px 1fr;max-width:1320px;margin:0 auto;}
+  nav{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;
+    padding:28px 18px;border-right:1px solid var(--rule);background:var(--band);}
+  nav h2{font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);
+    margin:0 0 12px;font-weight:700;}
+  nav a{display:block;color:var(--ink);text-decoration:none;font-size:13px;
+    padding:5px 8px;border-radius:5px;margin-bottom:1px;border-left:2px solid transparent;}
+  nav a:hover{background:rgba(181,82,58,0.08);border-left-color:var(--accent);color:var(--accent);}
+  nav a.sub{padding-left:18px;font-size:12px;color:var(--muted);}
+  main{padding:40px 52px 80px;min-width:0;}
+  header.hd{border-bottom:2px solid var(--ink);padding-bottom:20px;margin-bottom:8px;}
+  .eyebrow{font-family:ui-monospace,"Cascadia Code",Consolas,monospace;font-size:11px;
+    letter-spacing:0.16em;text-transform:uppercase;color:var(--accent);margin:0 0 8px;font-weight:600;}
+  h1{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:38px;line-height:1.08;margin:0 0 10px;}
+  .meta-strip{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+  .chip{font-family:ui-monospace,monospace;font-size:11px;background:var(--paper2);
+    border:1px solid var(--rule);border-radius:4px;padding:4px 9px;color:var(--muted);}
+  h2.sec{font-family:Georgia,serif;font-weight:400;font-size:27px;margin:48px 0 6px;
+    padding-top:14px;border-top:1px solid var(--rule);}
+  h2.sec .n{font-family:ui-monospace,monospace;font-size:14px;color:var(--accent);margin-right:10px;}
+  h3{font-size:18px;margin:26px 0 8px;font-weight:600;}
+  h4{font-size:15px;margin:18px 0 6px;font-weight:600;color:var(--ink);}
+  p{margin:8px 0;}
+  .lead{font-size:16px;color:var(--muted);max-width:80ch;}
+  ul,ol{margin:8px 0;padding-left:22px;}
+  li{margin:3px 0;}
+  code{font-family:ui-monospace,monospace;font-size:12.5px;background:var(--band);
+    padding:1px 5px;border-radius:3px;}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13px;}
+  th,td{border:1px solid var(--rule);padding:8px 10px;text-align:left;vertical-align:top;}
+  th{background:var(--ink);color:#fff;font-weight:600;font-size:12px;}
+  tbody tr:nth-child(even){background:rgba(28,25,23,0.025);}
+  .callout{border:1px solid var(--rule);border-left:4px solid var(--accent);
+    background:var(--paper2);border-radius:0 6px 6px 0;padding:12px 16px;margin:16px 0;}
+  .callout.warn{border-left-color:var(--warn);background:#fdf4f1;}
+  .callout.ok{border-left-color:var(--ok);background:#f1f7f2;}
+  .callout .t{font-weight:700;font-size:12px;letter-spacing:0.04em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:4px;}
+  .callout.ok .t{color:var(--ok);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .card{border:1px solid var(--rule);border-radius:8px;background:var(--paper2);padding:18px 20px;margin:18px 0;}
+  .wk{border:1px solid var(--rule);border-radius:8px;background:var(--paper2);margin:20px 0;overflow:hidden;}
+  .wk-h{background:var(--ink);color:#fff;padding:12px 18px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .wk-h .w{font-family:ui-monospace,monospace;font-size:12px;color:#e8b9ab;letter-spacing:0.1em;}
+  .wk-h .ttl{font-size:17px;font-weight:600;}
+  .wk-h .cid{margin-left:auto;font-family:ui-monospace,monospace;font-size:10px;
+    background:rgba(255,255,255,0.14);padding:3px 7px;border-radius:3px;}
+  .wk-b{padding:16px 20px;}
+  .lbl{font-family:ui-monospace,monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--muted);font-weight:700;margin-top:14px;}
+  .abcd{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:13px;margin:6px 0;}
+  .abcd b{font-family:ui-monospace,monospace;color:var(--accent);font-size:11px;}
+  .ros{font-size:12.5px;width:100%;}
+  .ros td:first-child{font-family:ui-monospace,monospace;color:var(--muted);white-space:nowrap;width:96px;}
+  .load{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:8px 0;}
+  .load div{border:1px solid var(--rule);border-radius:6px;padding:8px 10px;font-size:12px;background:var(--band);}
+  .load b{display:block;font-size:10px;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;}
+  .ltag{display:inline-block;font-family:ui-monospace,monospace;font-size:10px;border:1px solid;border-radius:3px;
+    padding:1px 5px;margin-left:4px;}
+  .t-hi{color:var(--warn);border-color:var(--warn);} .t-md{color:var(--olive);border-color:var(--olive);}
+  .t-lo{color:var(--ok);border-color:var(--ok);}
+  .tier{font-size:12.5px;border-left:3px solid var(--rule);padding-left:10px;margin:5px 0;}
+  .tier b{font-family:ui-monospace,monospace;font-size:11px;}
+  .src{font-family:ui-monospace,monospace;font-size:10.5px;color:var(--soft);}
+  footer{margin-top:60px;padding-top:16px;border-top:1px solid var(--rule);
+    font-family:ui-monospace,monospace;font-size:11px;color:var(--soft);}
+  @media print{
+    .wrap{grid-template-columns:1fr;} nav{display:none;}
+    main{padding:0;} body{font-size:11pt;} .wk,.card,table{page-break-inside:avoid;}
+  }
+  @media(max-width:900px){.wrap{grid-template-columns:1fr;}nav{position:static;height:auto;border-right:none;border-bottom:1px solid var(--rule);}main{padding:24px;}.grid2,.load{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+  <h2>Содержание</h2>
+  <a href="#obzor">0 · Обзор дизайна</a>
+  <a href="#analyze">1 · ADDIE: Анализ</a>
+  <a href="#analyze" class="sub">Потребность · ЦА · контекст · задачи</a>
+  <a href="#actionmap">2 · Карта действий</a>
+  <a href="#design">3 · Цели и выравнивание</a>
+  <a href="#weeks">4 · Программа по неделям</a>
+  <a href="#w1" class="sub">W1 Почему промпты ломаются</a>
+  <a href="#w2" class="sub">W2 От задачи к спецификации</a>
+  <a href="#w3" class="sub">W3 Управление контекстом</a>
+  <a href="#w4" class="sub">W4 Постановка задач агенту</a>
+  <a href="#w5" class="sub">W5 Контроль качества</a>
+  <a href="#w6" class="sub">W6 Тестирование</a>
+  <a href="#w7" class="sub">W7 Легаси</a>
+  <a href="#w8" class="sub">W8 Проект и защита</a>
+  <a href="#project">5 · Сквозной проект + рубрика</a>
+  <a href="#load">6 · Когнитивная нагрузка</a>
+  <a href="#evaluate">7 · Оценка (Kirkpatrick)</a>
+  <a href="#implement">8 · Внедрение</a>
+  <a href="#develop">9 · Разработка материалов</a>
+  <a href="#audit">10 · Alignment audit</a>
+  <a href="#enrich">11 · Enrichment (опции)</a>
+</nav>
+<main>
+<header class="hd" id="top">
+  <p class="eyebrow">LXD Course Design · Spec-Driven Development</p>
+  <h1>Управляемая разработка с ИИ</h1>
+  <p class="lead">Инженерный разбор курса как Learning Experience Design: как студенты работают, что готовить к каждому этапу, цели по ABCD, артефакты, когнитивная нагрузка и оценка. Построено на источнике правды (гугл-таблица курса, 24 вкладки) и опросе студентов, через линзы ADDIE, Cognitive Load Theory и Action Mapping.</p>
+  <div class="meta-strip">
+    <span class="chip">8 недель</span>
+    <span class="chip">живые воркшопы</span>
+    <span class="chip">сквозной проект → защита</span>
+    <span class="chip">ЦА: junior+ → senior/lead</span>
+    <span class="chip">старт июль</span>
+    <span class="chip">формат: повтор за экспертом + свой проект</span>
+  </div>
+</header>
+
+<h2 class="sec" id="obzor"><span class="n">0</span>Обзор дизайна</h2>
+<p>Документ — рабочая методичка для команды курса (методист, продюсер, эксперт, куратор). Он переводит продуктовую концепцию из таблицы в управляемый учебный дизайн: каждый учебный результат измерим, привязан к проверке и к реальной рабочей задаче специалиста.</p>
+<div class="grid2">
+<div class="card">
+<h4>Источник правды</h4>
+<ul>
+<li>Гугл-таблица курса, 24 вкладки: «1. Концепция», «ТЗ на ленд» (канон программы), «Слепок рынка» (задачи junior/middle), «2. Анализ конкурентов», «7. Метрики групп», «8. Выборка отзывов».</li>
+<li>Опрос студентов (анкета): боли, инструменты, готовность платить.</li>
+<li>Всё в <code>00-source-materials/</code>. Ничего не выдумано — спорные места помечены.</li>
+</ul>
+</div>
+<div class="card">
+<h4>Линзы (методология)</h4>
+<ul>
+<li><b>ADDIE</b> — Analyze → Design → Develop → Implement → Evaluate; сквозное выравнивание.</li>
+<li><b>Cognitive Load Theory</b> — intrinsic / extraneous / germane; worked-example fading; expertise reversal.</li>
+<li><b>Action Mapping</b> — поведение-first: цель → действия → фильтр skill/среда → практика.</li>
+</ul>
+</div>
+</div>
+<div class="callout"><div class="t">Канон программы (вкладка «ТЗ на ленд»)</div>
+8 недель живых воркшопов: <b>W1</b> Почему промпты ломаются · <b>W2</b> От задачи к спецификации · <b>W3</b> Управление контекстом · <b>W4</b> Постановка задач AI-агенту · <b>W5</b> Контроль качества AI-кода · <b>W6</b> Тестирование AI-разработки · <b>W7</b> Легаси и существующий код · <b>W8</b> Сквозной проект и защита. Формат: повторяете за экспертом и параллельно собираете собственный сквозной проект.</div>
+<div class="callout warn"><div class="t">Разрешение конфликтов источников</div>
+<b>8 недель (ленд) vs OTUS-шаблон 3–4 мес</b> — канон = 8 недель воркшопов (продуктовая концепция перекрывает дефолтный шаблон таблицы); шаблон оставлен как операционная рамка (ДЗ, критерии, преподавательская). <b>Дизайн-система / безопасность / локальные модели</b> из ранних обсуждений — не в каноне ленда; вынесены в §11 как опциональный enrichment из опроса.</div>
+
+<h2 class="sec" id="analyze"><span class="n">1</span>ADDIE · Анализ</h2>
+<h3>1.1 Анализ потребности (needs)</h3>
+<p><b>Разрыв производительности:</b> разработчики уже используют ИИ, но хаотично — дают агенту задачу общими словами, получают большой кусок кода и не контролируют результат. Корень не в том, что ИИ плохо пишет код, а в том, что <b>задача плохо формализована</b>. Следствия (вкладка «1. Концепция»): агент додумывает требования, меняет лишние файлы, не знает контекст, генерит непроверяемый код → время на ревью, откаты, переписывание.</p>
+<p><b>Тренинг — правильное решение?</b> Да: это <b>skill/knowledge-gap</b> (как формализовать задачу, управлять контекстом, проверять код), не разовый job-aid. Часть барьеров — <b>environment</b> (setup среды, платные токены) — выносим в не-тренинговые фиксы (§2, §8), не в контент.</p>
+<h3>1.2 Анализ ЦА (learner) + гейт и тиры</h3>
+<p><b>Кто:</b> разработчики с коммерческим/уверенным проектным опытом — от <b>junior+</b> до <b>senior/lead</b>; дополнительно QA automation, tech lead, тех-фаундер. Из опроса: backend/frontend/mobile/devops; стек JS/TS, Python, Java/Kotlin, Go, C#; большинство используют ИИ ежедневно; инструменты Cursor/Claude Code/Copilot/ChatGPT + DeepSeek/Gemini/Гигачат/локальные.</p>
+<div class="callout warn"><div class="t">Гейт — по способности пройти петлю, не по «вкусу к качеству»</div>
+Ядро курса — ревью и приёмка AI-кода. Но <b>метод spec-driven сам снижает требование к интуиции</b> (явные критерии/тесты вместо «глазом вижу»). Поэтому режем не по «умеет судить о качестве» (это и есть результат курса), а по <b>механике участия</b>: читает чужой код · Git (ветки/PR) · запускает тесты · формулирует задачу · кодит на 1+ языке. Не проходит петлю механически → не наш студент. Анти-портрет (с лендинга): не программировал, не читает код, не знает Git, хочет «приложение без кода», ждёт что ИИ всё сделает сам.</div>
+<h4>Тиры (scaffolding fade) — обслуживаем полосу junior+ → senior</h4>
+<table>
+<thead><tr><th>Рычаг</th><th>T1 — junior+ / нижний middle</th><th>T2 — middle (ядро)</th><th>T3 — senior / lead</th></tr></thead>
+<tbody>
+<tr><td>Опора</td><td>готовый шаблон + worked example, заполнить по образцу</td><td>пустой шаблон + чек-лист самопроверки</td><td>без шаблона, только критерий результата</td></tr>
+<tr><td>Проект</td><td>учебный, контролируемый</td><td>свой рабочий код</td><td>свой легаси + ограничения (scope, стоимость)</td></tr>
+<tr><td>Критерий</td><td>прошёл процесс корректно</td><td>процесс + доказан эффект</td><td>оптимизировал, обосновал, готов внедрить в команду</td></tr>
+</tbody>
+</table>
+<p class="src">Expertise reversal (Kalyuga 2003): сениору worked example избыточен — он стартует с T3, без шаблонов. Тир — стартовая точка, не клетка: к W8 опора снимается у всех.</p>
+<h3>1.3 Анализ контекста</h3>
+<ul>
+<li><b>Формат:</b> живые онлайн-воркшопы, один поток; повтор за экспертом + параллельно свой проект; записи и материалы остаются; чат потока и обратная связь.</li>
+<li><b>Среда студента:</b> локальная IDE + AI-инструмент (Cursor / Claude Code / Copilot / ChatGPT), Git, репозиторий на GitHub. Темп плотный (8 недель).</li>
+<li><b>Риск среды (из отзывов прошлых курсов, вкладка 8):</b> «половину занятия скачивали образы и боролись с настройкой»; «заранее не объявили, что установить». → закрываем pre-work + environment doctor (§2, §6).</li>
+</ul>
+<h3>1.4 Анализ задач (task analysis) — из вкладки «Слепок рынка»</h3>
+<p>Наблюдаемые рабочие задачи специалиста — поведенческая основа курса. Это то, что выпускник должен <b>делать</b>, не «знать».</p>
+<table>
+<thead><tr><th>Уровень</th><th>Рабочая задача</th><th>Инструменты</th><th>Ожидаемый результат</th></tr></thead>
+<tbody>
+<tr><td>junior</td><td>Перевести входящую задачу в первичную спецификацию</td><td>User story, acceptance criteria, DoD, Markdown-шаблон, Jira/Linear</td><td>Черновик спеки: цель, ограничения, критерии приёмки</td></tr>
+<tr><td>junior</td><td>Составить контекст для AI-агента</td><td>Cursor, Claude Code, AGENTS.md, CLAUDE.md, правила репо</td><td>Контекст/agent brief для безопасной передачи задачи</td></tr>
+<tr><td>junior</td><td>Контролировать реализацию мелкой задачи агентом</td><td>Git diff, PR, branch workflow, Copilot/Codex</td><td>Diff/PR, соответствующий спеке, без лишних изменений</td></tr>
+<tr><td>junior</td><td>Проверить AI-код тестами и базовым ревью</td><td>PyTest/Jest/JUnit, ESLint/Ruff, чек-лист ревью</td><td>Пройденные тесты, исправленные замечания</td></tr>
+<tr><td>middle</td><td>Спроектировать полную спецификацию (фича/багфикс/рефактор)</td><td>Spec Kit, Gherkin/Given-When-Then, ADR, Mermaid</td><td>Спека, пригодная для агента и ревью командой</td></tr>
+<tr><td>middle</td><td>Разработать план работы агента по спеке</td><td>Claude Code, agent mode, task breakdown, repo instructions</td><td>План с ограничениями, шагами, контрольными точками</td></tr>
+<tr><td>middle</td><td>Управлять реализацией в существующей кодовой базе</td><td>Git branches, PR, CI, dependency graph, архгайды</td><td>Задача в репо без лишних изменений и нарушения архитектуры</td></tr>
+<tr><td>middle</td><td>Тест-стратегия для AI-changes</td><td>Test pyramid, coverage, CI, Playwright/Cypress</td><td>Тесты + отчёт, подтверждающий соответствие спеке</td></tr>
+<tr><td>middle</td><td>Ревью результата агента и доработка</td><td>Review checklist, Copilot/Codex review, secure coding</td><td>PR, готовый к merge, с устранёнными замечаниями</td></tr>
+</tbody>
+</table>
+
+<h2 class="sec" id="actionmap"><span class="n">2</span>Карта действий (Action Map)</h2>
+<p>Поведение-first: курс строится вокруг действий, не контента. Контент включаем только тот, что поддерживает практику.</p>
+<div class="callout"><div class="t">Заострённая цель (measurable)</div>
+За 8 недель студент проводит реальную или учебную задачу (фича / багфикс / рефакторинг) через <b>полный spec-driven цикл</b>, управляя AI-агентом, и на защите демонстрирует репозиторий, где спека удержала агента в рамках, тесты и ревью подтвердили качество, изменения не вышли за scope — <b>без ручного переписывания сгенерённого кода</b>.</div>
+<h3>2.1 Действия → фильтр (тренинг vs среда/мотивация)</h3>
+<table>
+<thead><tr><th>#</th><th>Действие (наблюдаемое)</th><th>Skill</th><th>Know</th><th>Среда/мотив</th><th>Тренинг помогает?</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Превратить задачу в спецификацию (требования, ограничения, AC, DoD, тесты)</td><td>✓</td><td>✓</td><td></td><td>Да — практика (W2)</td></tr>
+<tr><td>2</td><td>Подготовить контекст-файл проекта (архитектура, конвенции, границы)</td><td>✓</td><td>✓</td><td></td><td>Да — практика (W3)</td></tr>
+<tr><td>3</td><td>Поставить задачу агенту в scope, вести по плану с контрольными точками</td><td>✓</td><td></td><td></td><td>Да — практика (W4)</td></tr>
+<tr><td>4</td><td>Проверить diff против спеки, отклонить лишние изменения</td><td>✓</td><td></td><td></td><td>Да — практика (W4–W5)</td></tr>
+<tr><td>5</td><td>Прогнать AI-код по чек-листу ревью, поймать типовые дефекты</td><td>✓</td><td>✓</td><td></td><td>Да — практика (W5)</td></tr>
+<tr><td>6</td><td>Написать/дополнить тесты, использовать coverage как критерий готовности</td><td>✓</td><td></td><td></td><td>Да — практика (W6)</td></tr>
+<tr><td>7</td><td>Подключить ИИ к легаси без сноса смежного кода</td><td>✓</td><td>✓</td><td></td><td>Да — практика (W7)</td></tr>
+<tr><td>8</td><td>Оформить PR (описание, ссылка на спеку, результаты проверки)</td><td>✓</td><td></td><td></td><td>Да — вплетено в W5/W8</td></tr>
+<tr><td>9</td><td>На защите показать, как управлял ИИ (не только итог)</td><td>✓</td><td></td><td></td><td>Да — W8</td></tr>
+<tr style="background:#fdf4f1;"><td>E1</td><td>Поднять рабочее окружение (IDE, Git, зависимости, доступ к модели)</td><td></td><td></td><td>среда</td><td><b>Нет</b> — не-тренинговый фикс (pre-work + environment doctor)</td></tr>
+<tr style="background:#fdf4f1;"><td>E2</td><td>Иметь доступ к платной модели (Cursor/Claude)</td><td></td><td></td><td>среда</td><td><b>Нет</b> — дать бесплатный путь (Copilot free/ChatGPT/локальные)</td></tr>
+</tbody>
+</table>
+<div class="callout warn"><div class="t">Не-тренинговые рекомендации (среда)</div>
+<ul style="margin:4px 0;">
+<li><b>E1 setup:</b> окружение поднимается <b>до</b> курса (pre-work чек-лист + видеоинструкция + траблшутинг по ОС). Первый воркшоп открывается «environment doctor» — 15 мин на добивание хвостов. Снапшот-ветка репо-шаблона на каждую неделю: если у студента среда сломалась, он переключается на готовую ветку и не выпадает из практики. <span class="src">Прямой ответ на отзыв: «настроить среду заранее, чтоб не тратить занятие».</span></li>
+<li><b>E2 токены:</b> один основной инструмент на поток + задокументированный бесплатный путь (GitHub Copilot free tier, ChatGPT, локальные модели). <span class="src">Закрывает опросную боль «дорогие токены».</span></li>
+</ul></div>
+<h3>2.2 Минимальный контент</h3>
+<p>Только то, что обслуживает практику: шаблоны спецификаций (хорошая/плохая), правила контекста (AGENTS.md/CLAUDE.md), чек-листы ревью, набор «подсаженных» дефектов для тренировки, репозиторий-шаблон с pinned-зависимостями и снапшот-ветками. Лекций ради лекций нет — теория идёт короткими врезками <b>перед</b> практикой.</p>
+
+<h2 class="sec" id="design"><span class="n">3</span>Дизайн · цели и выравнивание</h2>
+<p>Каждая неделя = шаг сквозного проекта. Результаты — в формате ABCD (Audience · Behavior · Condition · Degree), измеримые и наблюдаемые. Полные ABCD-формулировки — в карточках §4.</p>
+<h3>Sequencing rationale</h3>
+<ul>
+<li><b>Простое → сложное:</b> сначала понимание проблемы (W1), затем атомарный навык — спека (W2), потом контекст (W3), управление агентом (W4). Контроль (W5–W6) — после того как есть что контролировать. Легаси (W7) — самый высокий intrinsic load, ставим поздно (нужна беглость). Защита (W8) — суммативная демонстрация. <span class="src">Отвечает на отзыв: «нет движения по градиенту от простого к сложному».</span></li>
+<li><b>Спейсинг:</b> спека и ревью — рекуррентные навыки, повторяются каждую неделю на сквозном проекте, не «один раз и забыли».</li>
+<li><b>Теория перед практикой:</b> короткий концепт-инпут → worked example → своя практика. <span class="src">Отзыв: «теория после практики — это неправильно».</span></li>
+</ul>
+<h3>Блюпринт (неделя → результат → проверка → артефакт)</h3>
+<table>
+<thead><tr><th>Нед.</th><th>Тема</th><th>Ключевой результат (B)</th><th>Проверка</th><th>Артефакт</th><th>4C/ID</th></tr></thead>
+<tbody>
+<tr><td>W1</td><td>Почему промпты ломаются</td><td>классифицировать сбой агента</td><td>разбор 4 кейсов</td><td>карта зон доверия/контроля</td><td>SI</td></tr>
+<tr><td>W2</td><td>От задачи к спецификации</td><td>составить спеку (5 секций)</td><td>спека + сравнение с/без</td><td>спецификация</td><td>PI·LT</td></tr>
+<tr><td>W3</td><td>Управление контекстом</td><td>подготовить контекст-файл</td><td>агент не выходит за рамки</td><td>AGENTS.md/CLAUDE.md</td><td>PI</td></tr>
+<tr><td>W4</td><td>Постановка задач агенту</td><td>вести агента в scope</td><td>diff соответствует спеке</td><td>agent plan + PR</td><td>LT</td></tr>
+<tr><td>W5</td><td>Контроль качества</td><td>ревью по чек-листу</td><td>поймал ≥80% дефектов</td><td>заполненный чек-лист ревью</td><td>PP·PI</td></tr>
+<tr><td>W6</td><td>Тестирование</td><td>тест-стратегия + coverage</td><td>CI зелёный, негативы есть</td><td>тесты + coverage-отчёт</td><td>PP</td></tr>
+<tr><td>W7</td><td>Легаси</td><td>изменение через спеку в чужом коде</td><td>тесты, смежное не сломано</td><td>PR в легаси-репо</td><td>LT</td></tr>
+<tr><td>W8</td><td>Проект + защита</td><td>полный цикл + демонстрация управления</td><td>рубрика защиты</td><td>репозиторий + защита</td><td>LT</td></tr>
+</tbody>
+</table>
+<p class="src">4C/ID: LT — learning task (целостная задача), SI — supportive info (теория/модель), PI — procedural info (шаблон/чек-лист just-in-time), PP — part-task practice (отработка навыка).</p>
+
+<h2 class="sec" id="weeks"><span class="n">4</span>Программа по неделям</h2>
+<div class="callout ok"><div class="t">Единый run-of-show воркшопа (≈2 ч) — каркас всех недель</div>
+<table class="ros"><tbody>
+<tr><td>0:00–0:15</td><td><b>Environment doctor</b> + разбор pre-work: добиваем хвосты окружения, у кого сломалось — снапшот-ветка.</td></tr>
+<tr><td>0:15–0:35</td><td><b>Концепт-инпут</b> (теория ДО практики): короткий разбор на реальном примере, без абстракций.</td></tr>
+<tr><td>0:35–1:10</td><td><b>Worked example:</b> эксперт делает шаг недели вживую; T1 повторяют синхронно.</td></tr>
+<tr><td>1:10–1:40</td><td><b>Своя практика:</b> студенты применяют на сквозном проекте (T2/T3); эксперт обходит и правит точечно.</td></tr>
+<tr><td>1:40–1:55</td><td><b>Разбор типовых ошибок</b> + рефлексия «где агент додумал?» (germane load).</td></tr>
+<tr><td>1:55–2:00</td><td>Выдача артефакта-критерия + pre-work на следующую неделю.</td></tr>
+</tbody></table>
+Ниже на каждую неделю — специфика: цель ABCD, что делает студент, pre-work, подготовка фасилитатора, нагрузка, артефакт, проверка, тиры.</div>
+
+<div class="wk" id="w1"><div class="wk-h"><span class="w">W1</span><span class="ttl">Spec-Driven Development: почему промпты ломаются</span><span class="cid">SI · foundation</span></div>
+<div class="wk-b">
+<div class="lbl">Цель (ABCD)</div>
+<div class="abcd"><b>A</b><span>студент</span><b>B</b><span>объясняет, почему хаотичные промпты ломаются, и классифицирует сбой агента (контекст / доверие / хаос / качество)</span><b>C</b><span>на 4 реальных кейсах диалога с ИИ</span><b>D</b><span>верно атрибутирует причину сбоя в ≥3 из 4</span></div>
+<div class="lbl">Что делает студент</div>
+<p>Разбирает плохой vs хороший диалог с агентом; строит карту зон доверия/контроля; формулирует, что отдать агенту, а что проверять. Выбирает задачу для сквозного проекта.</p>
+<div class="lbl">Pre-work</div>
+<p>Поднять окружение по чек-листу (IDE, Git, AI-инструмент, клонировать репо-шаблон, запустить smoke). Принести кандидата на сквозной проект (фича/багфикс/рефактор).</p>
+<div class="lbl">Подготовка фасилитатора</div>
+<p>4 кейса-диалога (2 провальных, 2 рабочих); шаблон карты доверия/контроля; репо-шаблон + снапшот-ветка <code>w1</code>; чек-лист окружения с траблшутингом по ОС.</p>
+<div class="lbl">Когнитивная нагрузка</div>
+<div class="load">
+<div><b>Intrinsic <span class="ltag t-lo">low</span></b>концептуальный блок, мало взаимосвязанных элементов</div>
+<div><b>Extraneous <span class="ltag t-hi">риск: setup</span></b>весь setup вынесен в pre-work + doctor; не крадёт занятие</div>
+<div><b>Germane <span class="ltag t-md">med</span></b>рефлексия причин сбоя строит схему «почему»</div>
+</div>
+<div class="lbl">Артефакт / проверка</div>
+<p>Карта зон доверия/контроля + выбранная тема проекта. Проверка: атрибуция причин на 4 кейсах.</p>
+<div class="lbl">Тиры</div>
+<div class="tier"><b>T1</b> кейсы даны + шаблон карты; <b>T2</b> приносит свой кейс из работы; <b>T3</b> формулирует правило-эвристику команды, где ИИ применять, где нет.</div>
+</div></div>
+
+<div class="wk" id="w2"><div class="wk-h"><span class="w">W2</span><span class="ttl">От задачи к спецификации</span><span class="cid">PI · LT</span></div>
+<div class="wk-b">
+<div class="lbl">Цель (ABCD)</div>
+<div class="abcd"><b>A</b><span>студент</span><b>B</b><span>составляет спецификацию (требования, ограничения, acceptance criteria, DoD, тесты) по шаблону</span><b>C</b><span>для задачи своего сквозного проекта</span><b>D</b><span>покрыты все 5 секций; результат агента с/без спеки измеримо расходится</span></div>
+<div class="lbl">Что делает студент</div>
+<p>Пишет спеку на свою задачу; прогоняет агента с ней и без неё; сравнивает diff и фиксирует разницу.</p>
+<div class="lbl">Pre-work</div>
+<p>Прочитать примеры хорошей/плохой спеки; описать задачу 3–5 предложениями.</p>
+<div class="lbl">Подготовка фасилитатора</div>
+<p>Шаблон спеки (User story, AC, DoD, ограничения, тест-кейсы); пары примеров хорошо/плохо; снапшот-ветка <code>w2</code>; Gherkin/Given-When-Then для T3.</p>
+<div class="lbl">Когнитивная нагрузка</div>
+<div class="load">
+<div><b>Intrinsic <span class="ltag t-hi">high</span></b>спека = много взаимозависимых элементов (цель, границы, критерии, тесты)</div>
+<div><b>Extraneous <span class="ltag t-lo">low</span></b>один шаблон, один инструмент; без разброса</div>
+<div><b>Germane <span class="ltag t-hi">high</span></b>сравнение с/без спеки строит схему «спека управляет агентом»</div>
+</div>
+<div class="callout"><div class="t">Тактика на high-intrinsic</div>Worked-example fading: эксперт пишет спеку вживую (T1 повторяют) → студенты заполняют частичный шаблон (completion) → пишут свою с нуля (T2/T3). Не давать пустой лист новичку сразу.</div>
+<div class="lbl">Артефакт / проверка</div>
+<p>Спецификация (5 секций) + заметка о расхождении с/без. Проверка: полнота секций + наличие измеримого расхождения.</p>
+<div class="lbl">Тиры</div>
+<div class="tier"><b>T1</b> шаблон + worked example, happy-path фича; <b>T2</b> пустой шаблон + самопроверка, своя задача; <b>T3</b> без шаблона, Gherkin/ADR, спека на легаси-кейс как командный стандарт.</div>
+</div></div>
+
+<div class="wk" id="w3"><div class="wk-h"><span class="w">W3</span><span class="ttl">Управление контекстом проекта</span><span class="cid">PI</span></div>
+<div class="wk-b">
+<div class="lbl">Цель (ABCD)</div>
+<div class="abcd"><b>A</b><span>студент</span><b>B</b><span>готовит контекст-файл проекта (архитектура, конвенции, границы изменений) для агента</span><b>C</b><span>в своём/учебном репозитории через AGENTS.md / CLAUDE.md</span><b>D</b><span>агент выполняет задачу не выходя за границы и не трогая запрещённые файлы</span></div>
+<div class="lbl">Что делает студент</div>
+<p>Собирает контекст-файл: релевантные файлы, архитектура, что нельзя менять, формат результата. Прогоняет задачу и проверяет, удержались ли границы.</p>
+<div class="lbl">Pre-work</div><p>Составить карту репозитория (ключевые модули, точки входа, запретные зоны).</p>
+<div class="lbl">Подготовка фасилитатора</div><p>Образцы AGENTS.md / CLAUDE.md / copilot-instructions; правила репо; снапшот-ветка <code>w3</code>.</p>
+<div class="lbl">Когнитивная нагрузка</div>
+<div class="load">
+<div><b>Intrinsic <span class="ltag t-md">med</span></b>контекст структурирован, но завязан на конкретный проект</div>
+<div><b>Extraneous <span class="ltag t-md">риск: форматы</span></b>зафиксировать один формат контекста на поток (redundancy)</div>
+<div><b>Germane <span class="ltag t-md">med</span></b>связь «контекст → поведение агента»</div>
+</div>
+<div class="lbl">Артефакт / проверка</div><p>AGENTS.md/CLAUDE.md проекта. Проверка: агент не правит запрещённые файлы.</p>
+<div class="lbl">Тиры</div>
+<div class="tier"><b>T1</b> заполняет образец контекста; <b>T2</b> пишет под свой репо; <b>T3</b> правила контекста уровня монорепо/команды.</div>
+</div></div>
+
+<div class="wk" id="w4"><div class="wk-h"><span class="w">W4</span><span class="ttl">Постановка задач AI-агенту</span><span class="cid">LT</span></div>
+<div class="wk-b">
+<div class="lbl">Цель (ABCD)</div>
+<div class="abcd"><b>A</b><span>студент</span><b>B</b><span>ставит задачу агенту в ограниченном scope и ведёт его по плану с контрольными точками</span><b>C</b><span>на атомарной задаче в репозитории</span><b>D</b><span>получает diff/PR, соответствующий спеке; лишние изменения отклонены</span></div>
+<div class="lbl">Что делает студент</div>
+<p>Декомпозирует задачу в план для агента; запускает на ограниченный scope; проверяет промежуточные diff; отклоняет выходы за рамки; просит доработать.</p>
+<div class="lbl">Pre-work</div><p>Готовая спека (W2) + контекст (W3) на текущий шаг проекта.</p>
+<div class="lbl">Подготовка фасилитатора</div><p>Шаблон agent plan (шаги, границы, контрольные точки); демонстрация agent mode; снапшот-ветка <code>w4</code>.</p>
+<div class="lbl">Когнитивная нагрузка</div>
+<div class="load">
+<div><b>Intrinsic <span class="ltag t-md">med</span></b>план + scope + контроль одновременно</div>
+<div><b>Extraneous <span class="ltag t-md">риск: tool sprawl</span></b>один основной агент на поток; остальные опционально</div>
+<div><b>Germane <span class="ltag t-hi">high</span></b>петля «план → diff → коррекция» строит навык управления</div>
+</div>
+<div class="lbl">Артефакт / проверка</div><p>Agent plan + PR по спеке. Проверка: соответствие diff спеке, отклонены лишние правки.</p>
+<div class="lbl">Тиры</div>
+<div class="tier"><b>T1</b> по шаблону плана, мелкий scope; <b>T2</b> свой план, фича+багфикс; <b>T3</b> prompt chaining / subagent-разбиение, контрольные точки на риск.</div>
+</div></div>
+
+<div class="wk" id="w5"><div class="wk-h"><span class="w">W5</span><span class="ttl">Контроль качества AI-кода</span><span class="cid">PP · PI</span></div>
+<div class="wk-b">
+<div class="lbl">Цель (ABCD)</div>
+<div class="abcd"><b>A</b><span>студент</span><b>B</b><span>прогоняет AI-сгенерённый код по чек-листу ревью</span><b>C</b><span>имея diff и спеку (в т.ч. с подсаженными дефектами)</span><b>D</b><span>находит ≥80% типовых дефектов до мерджа</span></div>
+<div class="lbl">Что делает студент</div>
+<p>Ревьюит diff по чек-листу: соответствие спеке, безопасность, читаемость, лишние правки, тех-долг. Принимает/отклоняет предложения, вносит финальные правки.</p>
+<div class="lbl">Pre-work</div><p>Прочитать чек-лист ревью; PR из W4 готов к разбору.</p>
+<div class="lbl">Подготовка фасилитатора</div><p>Чек-лист ревью AI-кода; набор diff с <b>подсаженными дефектами</b> (галлюцинация API, лишний файл, незаметный регресс); снапшот-ветка <code>w5</code>.</p>
+<div class="lbl">Когнитивная нагрузка</div>
+<div class="load">
+<div><b>Intrinsic <span class="ltag t-md">med</span></b>несколько осей проверки</div>
+<div><b>Extraneous <span class="ltag t-lo">low</span></b>фиксированный чек-лист снижает поиск</div>
+<div><b>Germane <span class="ltag t-hi">high</span></b>тренировка на подсаженных дефектах = прямое построение навыка ревью</div>
+</div>
+<div class="lbl">Артефакт / проверка</div><p>Заполненный чек-лист ревью + исправленный PR. Проверка: доля найденных подсаженных дефектов (≥80%).</p>
+<div class="lbl">Тиры</div>
+<div class="tier"><b>T1</b> ревью по чек-листу на узнаваемых дефектах; <b>T2</b> свой PR + secure-coding пункты; <b>T3</b> доработка чек-листа под команду, разбор Copilot/Codex review.</div>
+</div></div>
+
+<div class="wk" id="w6"><div class="wk-h"><span class="w">W6</span><span class="ttl">Тестирование AI-разработки</span><span class="cid">PP</span></div>
+<div class="wk-b">
+<div class="lbl">Цель (ABCD)</div>
+<div class="abcd"><b>A</b><span>студент</span><b>B</b><span>проектирует тест-стратегию и использует coverage как критерий готовности</span><b>C</b><span>для AI-сгенерённых изменений своего проекта</span><b>D</b><span>критичная логика покрыта, есть негативные сценарии, CI зелёный</span></div>
+<div class="lbl">Что делает студент</div>
+<p>Определяет нужные тесты (unit/integration/regression); добавляет негативные сценарии; проверяет покрытие критичной логики; гоняет в CI.</p>
+<div class="lbl">Pre-work</div><p>Убедиться, что тест-раннер и CI настроены (часть pre-work W1); PR из W5.</p>
+<div class="lbl">Подготовка фасилитатора</div><p>Шаблон test pyramid; пример CI-workflow (GitHub Actions); снапшот-ветка <code>w6</code> с заготовкой тестов.</p>
+<div class="lbl">Когнитивная нагрузка</div>
+<div class="load">
+<div><b>Intrinsic <span class="ltag t-md">med</span></b>типы тестов + покрытие + CI</div>
+<div><b>Extraneous <span class="ltag t-hi">риск: CI с нуля</span></b>CI-шаблон готов заранее; не настраивать на занятии</div>
+<div><b>Germane <span class="ltag t-md">med</span></b>«тест как критерий готовности», не формальность</div>
+</div>
+<div class="lbl">Артефакт / проверка</div><p>Набор тестов + coverage-отчёт, зелёный CI. Проверка: покрытие критичной логики + негативные кейсы.</p>
+<div class="lbl">Тиры</div>
+<div class="tier"><b>T1</b> дополняет готовые тесты; <b>T2</b> своя стратегия + coverage; <b>T3</b> regression-сеть, тестирование недетерминизма LLM-логики.</div>
+</div></div>
+
+<div class="wk" id="w7"><div class="wk-h"><span class="w">W7</span><span class="ttl">Работа с легаси и существующим кодом</span><span class="cid">LT · high load</span></div>
+<div class="wk-b">
+<div class="lbl">Цель (ABCD)</div>
+<div class="abcd"><b>A</b><span>студент</span><b>B</b><span>вносит фичу/багфикс/рефакторинг через спеку в существующий код</span><b>C</b><span>в легаси-репозитории, не им написанном</span><b>D</b><span>изменение проходит тесты, не ломает смежное, ограничено заявленным scope</span></div>
+<div class="lbl">Что делает студент</div>
+<p>Передаёт агенту спеку на изменение в чужом коде; отслеживает архитектурные сдвиги; предотвращает тех-долг; доводит до зелёных тестов.</p>
+<div class="lbl">Pre-work</div><p>Клонировать предоставленный легаси-репо; прочитать его README/структуру.</p>
+<div class="lbl">Подготовка фасилитатора</div><p>Учебный легаси-репо с тестами и «минами» (хрупкие зависимости); снапшот-ветка <code>w7</code>; пример ADR.</p>
+<div class="lbl">Когнитивная нагрузка</div>
+<div class="load">
+<div><b>Intrinsic <span class="ltag t-hi">high</span></b>чужой код + ограничения + scope = максимум взаимосвязей</div>
+<div><b>Extraneous <span class="ltag t-md">риск: незнакомый репо</span></b>репо выдан заранее в pre-work</div>
+<div><b>Germane <span class="ltag t-hi">high</span></b>перенос навыка в реальный контекст</div>
+</div>
+<div class="callout"><div class="t">Почему W7 поздно</div>Самый высокий intrinsic load — требует беглости в спеке, контексте, ревью, тестах (W2–W6). Ставить раньше = перегруз. <span class="src">Отзыв: «градиент от простого к сложному».</span></div>
+<div class="lbl">Артефакт / проверка</div><p>PR в легаси-репо. Проверка: тесты зелёные, смежное не сломано, scope соблюдён.</p>
+<div class="lbl">Тиры</div>
+<div class="tier"><b>T1</b> локализованный багфикс в выданном репо; <b>T2</b> фича/рефактор; <b>T3</b> свой рабочий легаси + бюджет токенов как ограничение.</div>
+</div></div>
+
+<div class="wk" id="w8"><div class="wk-h"><span class="w">W8</span><span class="ttl">Сквозной проект и защита</span><span class="cid">LT · summative</span></div>
+<div class="wk-b">
+<div class="lbl">Цель (ABCD)</div>
+<div class="abcd"><b>A</b><span>студент</span><b>B</b><span>демонстрирует полный spec-driven цикл и то, как управлял ИИ</span><b>C</b><span>на защите перед экспертом, репозиторий открыт</span><b>D</b><span>проходит рубрику защиты (§5); показывает управление, не только итог</span></div>
+<div class="lbl">Что делает студент</div>
+<p>Собирает воедино проект (задача→спека→контекст→реализация→тесты→ревью→доработка); готовит защиту: показывает, как спека удержала агента, что поймало ревью, что подтвердили тесты.</p>
+<div class="lbl">Pre-work</div><p>Довести репозиторий и README; подготовить 5–7-мин рассказ по этапам цикла.</p>
+<div class="lbl">Подготовка фасилитатора</div><p>Рубрика защиты; расписание слотов; форма обратной связи (сильные стороны + что улучшить).</p>
+<div class="lbl">Когнитивная нагрузка</div>
+<div class="load">
+<div><b>Intrinsic <span class="ltag t-hi">high</span></b>интеграция всех навыков</div>
+<div><b>Extraneous <span class="ltag t-lo">low</span></b>проект собирался всю программу — не с нуля</div>
+<div><b>Germane <span class="ltag t-hi">high</span></b>артикуляция «как управлял ИИ» закрепляет схему</div>
+</div>
+<div class="lbl">Артефакт / проверка</div><p>Репозиторий с полным циклом + защита. Проверка: рубрика §5.</p>
+<div class="lbl">Тиры</div>
+<div class="tier"><b>T1</b> «процесс пройден, агент под контролем»; <b>T2</b> «+ доказан эффект, пойманы дефекты»; <b>T3</b> «+ масштабируемо, командный стандарт, обоснование решений».</div>
+</div></div>
+
+<h2 class="sec" id="project"><span class="n">5</span>Сквозной проект и защита</h2>
+<p>Проект собирается <b>в течение курса</b> (каждая неделя = шаг), не «с нуля в конце». Это снижает экстра-нагрузку финала и повышает доходимость до проекта (ключевая метрика, вкладка 7). Тема — реальная или учебная задача студента (фича / багфикс / рефакторинг).</p>
+<h3>Рубрика защиты (критериально-ориентированная)</h3>
+<table>
+<thead><tr><th>Критерий</th><th>Возврат на доработку</th><th>Принято (T1/T2)</th><th>Отлично (T3)</th></tr></thead>
+<tbody>
+<tr><td>Спецификация</td><td>нет или неполная</td><td>5 секций, однозначно ограничивает агента</td><td>+ годна как командный стандарт</td></tr>
+<tr><td>Контекст</td><td>агент трогал лишнее</td><td>границы соблюдены</td><td>+ переносимые правила репо</td></tr>
+<tr><td>Управление агентом</td><td>видна только генерация</td><td>виден план + контрольные точки</td><td>+ обоснование решений на развилках</td></tr>
+<tr><td>Ревью качества</td><td>дефекты не пойманы</td><td>чек-лист применён, дефекты устранены</td><td>+ secure coding, доработан чек-лист</td></tr>
+<tr><td>Тесты</td><td>нет/красный CI</td><td>критичная логика покрыта, CI зелёный</td><td>+ негативы, regression-сеть</td></tr>
+<tr><td>Демонстрация</td><td>«вот код»</td><td>показал, как управлял ИИ по этапам</td><td>+ рефлексия ускорение vs тех-долг</td></tr>
+</tbody>
+</table>
+<p class="src">Из вкладки «1. Концепция»: «студент должен показать не просто вот код, а как он управлял разработкой с помощью ИИ». Дуальная оценка «принято / возврат» — из шаблона ДЗ (вкладка 4.1).</p>
+<h3>Артефакты → портфолио / резюме</h3>
+<p>Каждый недельный артефакт переносится в портфолио и формулировки резюме (вкладка «ТЗ на ленд», Экран 7): спецификация и шаблоны спек, контекст-файлы (AGENTS.md/CLAUDE.md) = Context Engineering, agent plan, заполненные чек-листы ревью AI-кода, тесты+coverage, PR в легаси, и итог — <b>сквозной проект на GitHub</b> с полным spec-driven циклом. В резюме это ложится строками: Spec-Driven Development · управление AI-агентами · Cursor/Claude Code/Copilot · Code Review AI-кода · тестирование AI-логики · работа с легаси.</p>
+
+<h2 class="sec" id="load"><span class="n">6</span>Когнитивная нагрузка — сводно</h2>
+<table>
+<thead><tr><th>Неделя</th><th>Intrinsic</th><th>Главный extraneous-риск</th><th>Тактика</th></tr></thead>
+<tbody>
+<tr><td>W1</td><td><span class="ltag t-lo">low</span></td><td>setup среды</td><td>pre-work + environment doctor + снапшот-ветки</td></tr>
+<tr><td>W2</td><td><span class="ltag t-hi">high</span></td><td>пустой лист новичку</td><td>worked-example fading (показ → completion → сам)</td></tr>
+<tr><td>W3</td><td><span class="ltag t-md">med</span></td><td>разные форматы контекста</td><td>один формат на поток (redundancy)</td></tr>
+<tr><td>W4</td><td><span class="ltag t-md">med</span></td><td>tool sprawl (4 инструмента)</td><td>один основной агент; остальные опционально</td></tr>
+<tr><td>W5</td><td><span class="ltag t-md">med</span></td><td>абстрактное ревью</td><td>тренировка на подсаженных дефектах</td></tr>
+<tr><td>W6</td><td><span class="ltag t-md">med</span></td><td>настройка CI с нуля</td><td>CI-шаблон готов заранее</td></tr>
+<tr><td>W7</td><td><span class="ltag t-hi">high</span></td><td>незнакомый легаси-репо</td><td>репо выдан в pre-work; поздняя постановка</td></tr>
+<tr><td>W8</td><td><span class="ltag t-hi">high</span></td><td>сборка финала с нуля</td><td>проект рос всю программу</td></tr>
+</tbody>
+</table>
+<div class="callout warn"><div class="t">Главный риск всего курса: «setup съел занятие»</div>
+Прямой урок из отзывов прошлых курсов (вкладка 8). Многоуровневая защита:
+<ol style="margin:6px 0;">
+<li><b>Pre-work окружения</b> с видеоинструкцией и траблшутингом по ОС — до первого воркшопа.</li>
+<li><b>Environment doctor</b> — первые 15 мин каждого воркшопа на добивание хвостов.</li>
+<li><b>Снапшот-ветки</b> репо-шаблона на каждую неделю: сломалась среда → переключился на готовую ветку → не выпал из практики.</li>
+<li><b>Один основной инструмент</b> на поток + бесплатный путь (Copilot free / ChatGPT / локальные) — снимает «дорогие токены» и tool sprawl.</li>
+</ol></div>
+<div class="callout"><div class="t">Expertise reversal (Kalyuga 2003)</div>Worked examples и шаблоны помогают T1, но перегружают сениора избыточностью. Сениор стартует с T3: без шаблона, сразу на своём легаси, со стретч-ограничениями. Не заставлять senior заполнять учебные шаблоны.</div>
+
+<h2 class="sec" id="evaluate"><span class="n">7</span>Оценка (ADDIE · Evaluate)</h2>
+<p>Замаплено на реальные метрики групп компании (вкладка 7), чтобы оценку реально собирали, а не «после запуска».</p>
+<table>
+<thead><tr><th>Уровень Kirkpatrick</th><th>Что меряем</th><th>Инструмент / источник</th><th>Целевой ориентир</th></tr></thead>
+<tbody>
+<tr><td>L1 — Реакция</td><td>удовлетворённость, ценность воркшопов</td><td>NPS + опрос по занятиям (как вкладка 8)</td><td>NPS положительный; средний балл занятия ≥4.5/5</td></tr>
+<tr><td>L2 — Обучение</td><td>навык по неделям + защита</td><td>артефакт-критерий каждой недели; рубрика §5</td><td>≥80% проходят рубрику; ревью-детект ≥80% (W5)</td></tr>
+<tr><td>L3 — Поведение</td><td>перенос в работу/pet-проект</td><td>опрос на 30/60 день: применяет ли spec-driven</td><td>≥50% применили хотя бы 1 практику на своём коде</td></tr>
+<tr><td>L4 — Результат</td><td>ускорение без потери качества</td><td>самооценка + кейсы (вкладка «кейсы в группе»)</td><td>кейсы внедрения в командный процесс</td></tr>
+</tbody>
+</table>
+<h4>Leading indicators (ловить рано, не ждать конца)</h4>
+<ul>
+<li><b>COR</b> (70% занятий, 50% ДЗ) и <b>доходимость до проекта</b> — главные предикторы; точка падения посещаемости — сигнал перегруза недели.</li>
+<li><b>Ревью-детект</b> (W5, % найденных подсаженных дефектов) — ранний прокси освоения ядра.</li>
+<li><b>Расхождение с/без спеки</b> (W2) — early win, индикатор «дошло».</li>
+</ul>
+
+<h2 class="sec" id="implement"><span class="n">8</span>Внедрение (ADDIE · Implement)</h2>
+<div class="grid2">
+<div class="card"><h4>Rollout</h4><ul>
+<li>Один поток, 8 недель, 1 воркшоп/неделя ≈2 ч + работа над сквозным проектом между занятиями.</li>
+<li>Записи и материалы (шаблоны, чек-листы) остаются после курса.</li>
+<li>Чат потока + обратная связь по спецификациям и проекту.</li>
+</ul></div>
+<div class="card"><h4>Онбординг (первые 15 минут студента)</h4><ul>
+<li>Приветствие + карта курса (модуль = шаг проекта).</li>
+<li>Чек-лист окружения + early win: первый прогон агента по мини-спеке.</li>
+<li>Выбор темы сквозного проекта.</li>
+</ul></div>
+</div>
+<h4>Подготовка фасилитатора (на каждый воркшоп)</h4>
+<ul>
+<li>Run-of-show (§4), кейсы/шаблоны/чек-листы недели, снапшот-ветка, набор подсаженных дефектов (W5).</li>
+<li>Шаблон поддерживающей обратной связи на ДЗ (вкладка 4.1): сильная сторона → зона роста → следующий шаг.</li>
+</ul>
+<h4>Риски и митигации</h4>
+<table>
+<thead><tr><th>Риск</th><th>Где</th><th>Митигация</th></tr></thead>
+<tbody>
+<tr><td>Setup съедает занятие</td><td>W1, W6</td><td>pre-work + environment doctor + снапшот-ветки</td></tr>
+<tr><td>Падение посещаемости</td><td>обычно середина</td><td>early win в W2; сквозной проект как якорь; разбор своих задач</td></tr>
+<tr><td>Перегруз новичка (high intrinsic)</td><td>W2, W7</td><td>worked-example fading; тиры T1; легаси поздно</td></tr>
+<tr><td>Скука сениора</td><td>весь курс</td><td>T3-стретчи, свой легаси, роль ревьюера чужих спек</td></tr>
+<tr><td>Дорогие токены</td><td>весь курс</td><td>один инструмент + бесплатный/локальный путь</td></tr>
+<tr><td>Разнобой инструментов</td><td>W3–W4</td><td>один основной агент на поток</td></tr>
+</tbody>
+</table>
+
+<h2 class="sec" id="develop"><span class="n">9</span>Разработка материалов (ADDIE · Develop)</h2>
+<h4>Что должно существовать до старта (materials checklist)</h4>
+<ul>
+<li><b>Репозиторий-шаблон</b> с pinned-зависимостями + снапшот-ветки <code>w1…w8</code>.</li>
+<li><b>Шаблон спецификации</b> (User story, AC, DoD, ограничения, тесты) + примеры хорошо/плохо.</li>
+<li><b>Образцы контекста</b>: AGENTS.md, CLAUDE.md, copilot-instructions.</li>
+<li><b>Чек-лист ревью AI-кода</b> + набор diff с подсаженными дефектами.</li>
+<li><b>Учебный легаси-репо</b> с тестами и «минами» (W7).</li>
+<li><b>CI-шаблон</b> (GitHub Actions) + заготовки тестов.</li>
+<li><b>Pre-work окружения</b>: чек-лист + видеоинструкция + траблшутинг по ОС.</li>
+<li><b>Рубрика защиты</b> + форма обратной связи + 4 кейса-диалога (W1).</li>
+</ul>
+<div class="callout ok"><div class="t">Прототип и пилот</div>Сначала собрать <b>W2 (спека)</b> и <b>W5 (ревью)</b> — ядро ценности и самые «обучающие» блоки — и протестировать на 2–3 представителях ЦА (один junior+, один middle, один senior) до сборки остального. Проверяем: понятность шаблонов, работает ли тренировка на подсаженных дефектах, не съедает ли setup время.</div>
+
+<h2 class="sec" id="audit"><span class="n">10</span>Alignment audit</h2>
+<p>Каждый результат → проверка → неделя → активность. Разрывов нет.</p>
+<table>
+<thead><tr><th>Результат (B)</th><th>Проверка</th><th>Неделя</th><th>Активность</th></tr></thead>
+<tbody>
+<tr><td>Классифицировать сбой агента</td><td>4 кейса</td><td>W1</td><td>разбор диалогов, карта доверия ✓</td></tr>
+<tr><td>Составить спецификацию</td><td>спека + с/без</td><td>W2</td><td>worked-example fading ✓</td></tr>
+<tr><td>Подготовить контекст</td><td>границы соблюдены</td><td>W3</td><td>AGENTS.md/CLAUDE.md ✓</td></tr>
+<tr><td>Вести агента в scope</td><td>diff по спеке</td><td>W4</td><td>agent plan + контроль diff ✓</td></tr>
+<tr><td>Ревью по чек-листу</td><td>≥80% дефектов</td><td>W5</td><td>подсаженные дефекты ✓</td></tr>
+<tr><td>Тест-стратегия + coverage</td><td>зелёный CI</td><td>W6</td><td>test pyramid + CI ✓</td></tr>
+<tr><td>Изменение в легаси через спеку</td><td>тесты, scope</td><td>W7</td><td>легаси-репо с минами ✓</td></tr>
+<tr><td>Полный цикл + управление ИИ</td><td>рубрика §5</td><td>W8</td><td>защита репозитория ✓</td></tr>
+</tbody>
+</table>
+<p>Покрытие задач «Слепка рынка»: junior 1→W2, junior 2→W3, junior 3→W4, junior 4→W5/W6, junior 5→W5/W8; middle 1→W2, middle 2→W4, middle 3→W7, middle 4→W6, middle 5→W5. Все рабочие задачи закрыты.</p>
+
+<h2 class="sec" id="enrich"><span class="n">11</span>Опциональный enrichment (из опроса, вне канона)</h2>
+<p>Не входит в канон ленда. Кандидаты на v2 / отдельные модули — закрывают сильные опросные боли. Помечено явно, чтобы не подменять утверждённую программу.</p>
+<table>
+<thead><tr><th>Боль (опрос)</th><th>Кандидат-блок</th><th>Куда вписать</th></tr></thead>
+<tbody>
+<tr><td>Безопасность: слив данных, MCP, ИИ управляет консолью</td><td>Безопасность AI-разработки</td><td>врезка в W5 или отдельный модуль v2</td></tr>
+<tr><td>Дорогие токены</td><td>Локальные модели / оптимизация стоимости</td><td>бонус-блок (частично закрыт «бесплатным путём»)</td></tr>
+<tr><td>Разнобой UI при генерации</td><td>Дизайн-система как спека для UI</td><td>опционально для fullstack/frontend</td></tr>
+<tr><td>Ментальная модель управления</td><td>«Менеджер отделов» + ИИ как разведка решений</td><td>усиление W1</td></tr>
+</tbody>
+</table>
+
+<footer>
+SDD course design · LXD-разбор через ADDIE · Cognitive Load Theory · Action Mapping ·
+источник правды: гугл-таблица курса (24 вкладки) + опрос студентов ·
+самодостаточный HTML, печатается · proglib academy
+</footer>
+</main>
+</div>
+</body>
+</html>

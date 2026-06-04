@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Граф программы — модули → образовательные результаты</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#faf7f2; --paper2:#ffffff; --ink:#1c1917; --muted:#6f6557;
+    --soft:#9a9082; --rule:rgba(28,25,23,0.12); --accent:#b5523a;
+    --accent-tint:#f0ddd6; --link:#2e5aa8; --olive:#6f7a52;
+  }
+  *{box-sizing:border-box;}
+  body{ margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Geist","Segoe UI",system-ui,sans-serif; padding:48px 40px 32px;}
+  .eyebrow{ font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:0.18em;
+    text-transform:uppercase; color:var(--muted); margin:0 0 8px;}
+  h1{ font-family:"Instrument Serif",Georgia,serif; font-weight:400; font-size:40px;
+    line-height:1.05; margin:0 0 6px;}
+  .sub{ color:var(--muted); font-size:14px; margin:0 0 20px; max-width:780px;}
+  svg{ width:100%; height:auto; display:block; }
+  .legend{ display:flex; gap:24px; flex-wrap:wrap; margin-top:16px; padding-top:14px;
+    border-top:1px solid var(--rule); font-size:11px; color:var(--muted);}
+  .chip{ display:inline-block; width:10px; height:10px; border-radius:2px; vertical-align:middle;
+    margin-right:6px; border:1px solid;}
+  footer{ margin-top:24px; padding-top:12px; border-top:1px solid var(--rule);
+    font-family:"Geist Mono",monospace; font-size:9px; letter-spacing:0.1em;
+    color:var(--soft); text-transform:uppercase;}
+</style>
+</head>
+<body>
+  <p class="eyebrow">Curriculum graph · модули → ОР · канон</p>
+  <h1>Структура программы</h1>
+  <p class="sub">Прогрессия 8 модулей (канон 8 недель) складывается в сквозной spec-driven цикл и сходится в финальном проекте, который доказывает 6 образовательных результатов. Ментальная модель «менеджер отделов» встроена в W1. Дизайн-система — опциональный nice-to-have (пунктир сверху). Цвет узла — доминирующий компонент 4C/ID.</p>
+
+  <svg viewBox="0 0 1200 720" role="img" aria-label="Граф программы">
+    <defs>
+      <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#6f6557"/>
+      </marker>
+      <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#b5523a"/>
+      </marker>
+      <marker id="arrow-soft" markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto">
+        <polygon points="0 0, 7 3, 0 6" fill="#9a9082"/>
+      </marker>
+    </defs>
+    <rect width="100%" height="100%" fill="#faf7f2"/>
+
+    <!-- optional design-system node (nice-to-have) -->
+    <rect x="816" y="20" width="344" height="48" rx="6" fill="#fdf6f3" stroke="#6f7a52" stroke-width="1.1" stroke-dasharray="4,3"/>
+    <text x="828" y="38" font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.1em" fill="#6f7a52">ОПЦ · NICE-TO-HAVE (frontend/fullstack)</text>
+    <text x="828" y="56" font-family="Geist,sans-serif" font-size="12" font-weight="600" fill="#1c1917">Дизайн-система как спека для UI · врезка в W3–W4</text>
+
+    <!-- spine arrows -->
+    <line x1="200" y1="150" x2="280" y2="150" stroke="#6f6557" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <line x1="480" y1="150" x2="560" y2="150" stroke="#6f6557" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <line x1="760" y1="150" x2="840" y2="150" stroke="#6f6557" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <path d="M 1000 188 L 1000 230 L 160 230 L 160 272" fill="none" stroke="#6f6557" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <line x1="200" y1="310" x2="280" y2="310" stroke="#6f6557" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <line x1="480" y1="310" x2="560" y2="310" stroke="#6f6557" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <line x1="760" y1="310" x2="840" y2="310" stroke="#6f6557" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <path d="M 920 348 L 920 400 L 600 400 L 600 436" fill="none" stroke="#b5523a" stroke-width="2" marker-end="url(#arrow-accent)"/>
+
+    <!-- final → 6 outcomes (dashed) -->
+    <line x1="380" y1="504" x2="120" y2="556" stroke="#9a9082" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrow-soft)"/>
+    <line x1="440" y1="504" x2="312" y2="556" stroke="#9a9082" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrow-soft)"/>
+    <line x1="520" y1="504" x2="504" y2="556" stroke="#9a9082" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrow-soft)"/>
+    <line x1="680" y1="504" x2="696" y2="556" stroke="#9a9082" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrow-soft)"/>
+    <line x1="760" y1="504" x2="888" y2="556" stroke="#9a9082" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrow-soft)"/>
+    <line x1="820" y1="504" x2="1080" y2="556" stroke="#9a9082" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrow-soft)"/>
+
+    <!-- W1 SI (+ менеджер отделов) -->
+    <rect x="40" y="120" width="160" height="60" rx="6" fill="#ffffff" stroke="rgba(28,25,23,0.4)" stroke-width="1"/>
+    <text x="52" y="140" font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.1em" fill="#9a9082">W1 · SI</text>
+    <text x="52" y="158" font-family="Geist,sans-serif" font-size="12" font-weight="600" fill="#1c1917">Почему промпты</text>
+    <text x="52" y="173" font-family="Geist,sans-serif" font-size="12" font-weight="600" fill="#1c1917">+ менеджер отделов</text>
+
+    <!-- W2 PI/LT -->
+    <rect x="320" y="120" width="160" height="60" rx="6" fill="#ffffff" stroke="#2e5aa8" stroke-width="1.2"/>
+    <text x="332" y="140" font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.1em" fill="#2e5aa8">W2 · PI/LT</text>
+    <text x="332" y="158" font-family="Geist,sans-serif" font-size="12" font-weight="600" fill="#1c1917">Спецификация</text>
+    <text x="332" y="173" font-family="Geist,sans-serif" font-size="12" font-weight="600" fill="#1c1917">(EARS, clarify)</text>
+
+    <!-- W3 PI -->
+    <rect x="600" y="120" width="160" height="60" rx="6" fill="#ffffff" stroke="#2e5aa8" stroke-width="1.2"/>
+    <text x="612" y="140" font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.1em" fill="#2e5aa8">W3 · PI</text>
+    <text x="612" y="158" font-family="Geist,sans-serif" font-size="12" font-weight="600" fill="#1c1917">Контекст</text>
+    <text x="612" y="173" font-family="Geist,sans-serif" font-size="12" font-weight="600" fill="#1c1917">проекта</text>
+
+    <!-- W4 LT -->
+    <rect x="880" y="120" width="160" height="60" rx="6" fill="#fdf3f0" stroke="#b5523a" stroke-width="1.2"/>
+    <text x="892" y="140" font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.1em" fill="#b5523a">W4 · LT</text>
+    <text x="892" y="158" font-family="Geist,sans-serif" font-size="12" font-weight="600" fill="#1c1917">Постановка</text>
+    <text x="892" y="173" font-family="Geist,sans-serif" font-size="12" font-weight="600" fill="#1c1917">задач агенту</text>
+
+    <!-- W5 PP/PI -->
+    <rect x="40" y="280" width="160" height="60" rx="6" fill="#ffffff" stroke="#6f7a52" stroke-width="1.2"/>
+    <text x="52" y="300" font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.1em" fill="#6f7a52">W5 · PP/PI</text>
+    <text x="52" y="318" font-family="Geist,sans-serif" font-size="12" font-weight="600" fill="#1c1917">Контроль</text>
+    <text x="52" y="333" font-family="Geist,sans-serif" font-size="12" font-weight="600" fill="#1c1917">качества</text>
+
+    <!-- W6 PP (тестирование) -->
+    <rect x="320" y="280" width="160" height="60" rx="6" fill="#ffffff" stroke="#6f7a52" stroke-width="1.2"/>
+    <text x="332" y="300" font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.1em" fill="#6f7a52">W6 · PP</text>
+    <text x="332" y="318" font-family="Geist,sans-serif" font-size="12" font-weight="600" fill="#1c1917">Тестирование</text>
+    <text x="332" y="333" font-family="Geist,sans-serif" font-size="12" font-weight="600" fill="#1c1917">AI-разработки</text>
+
+    <!-- W7 LT (легаси) -->
+    <rect x="600" y="280" width="160" height="60" rx="6" fill="#fdf3f0" stroke="#b5523a" stroke-width="1.2"/>
+    <text x="612" y="300" font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.1em" fill="#b5523a">W7 · LT</text>
+    <text x="612" y="318" font-family="Geist,sans-serif" font-size="12" font-weight="600" fill="#1c1917">Легаси и</text>
+    <text x="612" y="333" font-family="Geist,sans-serif" font-size="12" font-weight="600" fill="#1c1917">существующий код</text>
+
+    <!-- W8 LT (проект+защита) -->
+    <rect x="840" y="280" width="160" height="60" rx="6" fill="#fdf3f0" stroke="#b5523a" stroke-width="1.2"/>
+    <text x="852" y="300" font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.1em" fill="#b5523a">W8 · LT</text>
+    <text x="852" y="318" font-family="Geist,sans-serif" font-size="12" font-weight="600" fill="#1c1917">Проект +</text>
+    <text x="852" y="333" font-family="Geist,sans-serif" font-size="12" font-weight="600" fill="#1c1917">защита</text>
+
+    <!-- final project -->
+    <rect x="360" y="436" width="480" height="68" rx="8" fill="#f0ddd6" stroke="#b5523a" stroke-width="1.6"/>
+    <text x="600" y="462" font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.12em" fill="#b5523a" text-anchor="middle">FINAL · LEARNING TASK</text>
+    <text x="600" y="482" font-family="Geist,sans-serif" font-size="14" font-weight="600" fill="#1c1917" text-anchor="middle">Финальный проект — полный spec-driven цикл</text>
+    <text x="600" y="497" font-family="'Geist Mono',monospace" font-size="9" fill="#6f6557" text-anchor="middle">задача→спека→контекст→реализация→тесты→ревью→доработка→защита</text>
+
+    <!-- outcomes band: 6 -->
+    <text x="30" y="546" font-family="'Geist Mono',monospace" font-size="9" letter-spacing="0.12em" fill="#6f6557">ОБРАЗОВАТЕЛЬНЫЕ РЕЗУЛЬТАТЫ ПРОГРАММЫ (6)</text>
+
+    <rect x="30" y="560" width="180" height="120" rx="6" fill="#ffffff" stroke="rgba(28,25,23,0.12)" stroke-width="1"/>
+    <text x="42" y="580" font-family="'Geist Mono',monospace" font-size="9" fill="#b5523a">ОР-1 · LT</text>
+    <text x="42" y="598" font-family="Geist,sans-serif" font-size="11" fill="#1c1917">Полный spec-driven</text>
+    <text x="42" y="613" font-family="Geist,sans-serif" font-size="11" fill="#1c1917">цикл без ручного</text>
+    <text x="42" y="628" font-family="Geist,sans-serif" font-size="11" fill="#1c1917">переписывания</text>
+
+    <rect x="222" y="560" width="180" height="120" rx="6" fill="#ffffff" stroke="rgba(28,25,23,0.12)" stroke-width="1"/>
+    <text x="234" y="580" font-family="'Geist Mono',monospace" font-size="9" fill="#2e5aa8">ОР-2 · PI</text>
+    <text x="234" y="598" font-family="Geist,sans-serif" font-size="11" fill="#1c1917">Формализует</text>
+    <text x="234" y="613" font-family="Geist,sans-serif" font-size="11" fill="#1c1917">задачу в спеку</text>
+    <text x="234" y="628" font-family="Geist,sans-serif" font-size="11" fill="#1c1917">(EARS, clarify)</text>
+
+    <rect x="414" y="560" width="180" height="120" rx="6" fill="#ffffff" stroke="rgba(28,25,23,0.12)" stroke-width="1"/>
+    <text x="426" y="580" font-family="'Geist Mono',monospace" font-size="9" fill="#2e5aa8">ОР-3 · PI</text>
+    <text x="426" y="598" font-family="Geist,sans-serif" font-size="11" fill="#1c1917">Управляет</text>
+    <text x="426" y="613" font-family="Geist,sans-serif" font-size="11" fill="#1c1917">контекстом —</text>
+    <text x="426" y="628" font-family="Geist,sans-serif" font-size="11" fill="#1c1917">агент в границах</text>
+
+    <rect x="606" y="560" width="180" height="120" rx="6" fill="#ffffff" stroke="rgba(28,25,23,0.12)" stroke-width="1"/>
+    <text x="618" y="580" font-family="'Geist Mono',monospace" font-size="9" fill="#b5523a">ОР-4 · LT</text>
+    <text x="618" y="598" font-family="Geist,sans-serif" font-size="11" fill="#1c1917">Ставит и ведёт</text>
+    <text x="618" y="613" font-family="Geist,sans-serif" font-size="11" fill="#1c1917">агента в scope,</text>
+    <text x="618" y="628" font-family="Geist,sans-serif" font-size="11" fill="#1c1917">diff по спеке</text>
+
+    <rect x="798" y="560" width="180" height="120" rx="6" fill="#ffffff" stroke="rgba(28,25,23,0.12)" stroke-width="1"/>
+    <text x="810" y="580" font-family="'Geist Mono',monospace" font-size="9" fill="#6f7a52">ОР-5 · PP</text>
+    <text x="810" y="598" font-family="Geist,sans-serif" font-size="11" fill="#1c1917">Проверяет AI-код</text>
+    <text x="810" y="613" font-family="Geist,sans-serif" font-size="11" fill="#1c1917">тестами+ревью,</text>
+    <text x="810" y="628" font-family="Geist,sans-serif" font-size="11" fill="#1c1917">ловит ≥80%</text>
+
+    <rect x="990" y="560" width="180" height="120" rx="6" fill="#ffffff" stroke="rgba(28,25,23,0.12)" stroke-width="1"/>
+    <text x="1002" y="580" font-family="'Geist Mono',monospace" font-size="9" fill="#b5523a">ОР-6 · LT</text>
+    <text x="1002" y="598" font-family="Geist,sans-serif" font-size="11" fill="#1c1917">Применяет в</text>
+    <text x="1002" y="613" font-family="Geist,sans-serif" font-size="11" fill="#1c1917">легаси, встраивает</text>
+    <text x="1002" y="628" font-family="Geist,sans-serif" font-size="11" fill="#1c1917">процесс в команду</text>
+  </svg>
+
+  <div class="legend">
+    <span><span class="chip" style="background:#f0ddd6;border-color:#b5523a;"></span>LT — learning task</span>
+    <span><span class="chip" style="background:#fff;border-color:rgba(28,25,23,0.4);"></span>SI — supportive info</span>
+    <span><span class="chip" style="background:#fff;border-color:#2e5aa8;"></span>PI — procedural info</span>
+    <span><span class="chip" style="background:#fff;border-color:#6f7a52;"></span>PP — part-task practice</span>
+    <span><span class="chip" style="background:#fdf6f3;border-color:#6f7a52;"></span>опц · nice-to-have</span>
+    <span style="color:var(--soft);">— — — финал доказывает ОР</span>
+  </div>
+
+  <footer>Proglib Academy · 8 модулей (канон) → финальный проект → 6 образовательных результатов · менеджер отделов в W1 · дизайн-система = nice-to-have</footer>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Journey Map — Управляемая разработка с ИИ</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#faf7f2; --paper2:#ffffff; --ink:#1c1917; --muted:#6f6557;
+    --soft:#9a9082; --rule:rgba(28,25,23,0.12); --accent:#b5523a;
+    --accent-tint:#f0ddd6; --link:#2e5aa8; --olive:#6f7a52;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Geist","Segoe UI",system-ui,sans-serif;
+    padding:48px 40px 32px;
+  }
+  .eyebrow{
+    font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:0.18em;
+    text-transform:uppercase; color:var(--muted); margin:0 0 8px;
+  }
+  h1{
+    font-family:"Instrument Serif",Georgia,serif; font-weight:400;
+    font-size:40px; line-height:1.05; margin:0 0 6px;
+  }
+  .sub{ color:var(--muted); font-size:14px; margin:0 0 28px; max-width:760px;}
+  .arc-wrap{ margin:0 0 8px; }
+  .arc-cap{ display:flex; justify-content:space-between; font-family:"Geist Mono",monospace;
+    font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--soft); margin-top:4px;}
+  .map{
+    display:grid;
+    grid-template-columns:152px repeat(8,1fr);
+    border:1px solid var(--rule); border-radius:8px; overflow:hidden;
+    background:var(--paper2);
+  }
+  .map > div{ border-right:1px solid var(--rule); border-bottom:1px solid var(--rule); padding:10px 12px;}
+  .map > div:nth-child(9n){ border-right:none; }
+  .rowlabel{
+    font-family:"Geist Mono",monospace; font-size:9px; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--muted); background:rgba(28,25,23,0.03);
+    display:flex; align-items:center;
+  }
+  .wkhead{ background:rgba(28,25,23,0.04); }
+  .wknum{ font-family:"Geist Mono",monospace; font-size:9px; letter-spacing:0.12em;
+    color:var(--soft); text-transform:uppercase;}
+  .wkname{ font-size:12.5px; font-weight:600; line-height:1.2; margin-top:3px;}
+  .cell{ font-size:11.5px; line-height:1.32; color:var(--ink); }
+  .cell.pain{ color:var(--accent); font-style:italic;
+    font-family:"Instrument Serif",Georgia,serif; font-size:13px; line-height:1.25;}
+  .cell.outcome{ color:var(--muted); font-size:11px;}
+  .artifact{ font-family:"Geist Mono",monospace; font-size:10px; color:var(--ink); line-height:1.3;}
+  .tag{ display:inline-block; font-family:"Geist Mono",monospace; font-size:9px;
+    letter-spacing:0.08em; padding:2px 6px; border-radius:3px; border:1px solid; margin:1px 2px 1px 0;}
+  .t-LT{ color:var(--accent); border-color:var(--accent); background:var(--accent-tint);}
+  .t-SI{ color:var(--ink); border-color:rgba(28,25,23,0.4);}
+  .t-PI{ color:var(--link); border-color:rgba(46,90,168,0.5);}
+  .t-PP{ color:var(--olive); border-color:rgba(111,122,82,0.6);}
+  .opt{ margin-top:14px; border:1px dashed var(--accent); border-radius:8px; padding:12px 16px;
+    background:#fdf6f3; font-size:12.5px; line-height:1.4;}
+  .opt b{ font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--accent);}
+  .legend{ display:flex; gap:24px; flex-wrap:wrap; margin-top:18px; padding-top:14px;
+    border-top:1px solid var(--rule); font-size:11px; color:var(--muted);}
+  .legend b{ font-family:"Geist Mono",monospace; font-size:9px; letter-spacing:0.08em;}
+  footer{ margin-top:24px; padding-top:12px; border-top:1px solid var(--rule);
+    font-family:"Geist Mono",monospace; font-size:9px; letter-spacing:0.1em;
+    color:var(--soft); text-transform:uppercase;}
+</style>
+</head>
+<body>
+  <p class="eyebrow">Student Journey Map · 8 недель · канон</p>
+  <h1>Управляемая разработка с ИИ</h1>
+  <p class="sub">Путь студента от хаотичных промптов к инженерному управлению AI-разработкой через спецификации. Канон 8 недель (из ленда). Ментальная модель «менеджер отделов» встроена в W1. Дизайн-система — опциональный nice-to-have для UI-задач (см. сноску внизу).</p>
+
+  <div class="arc-wrap">
+    <svg viewBox="0 0 1200 120" width="100%" height="110" preserveAspectRatio="none" role="img" aria-label="Кривая уверенности">
+      <defs>
+        <marker id="ar" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#b5523a"/>
+        </marker>
+      </defs>
+      <line x1="40" y1="108" x2="1160" y2="108" stroke="rgba(28,25,23,0.10)" stroke-width="1"/>
+      <polyline fill="none" stroke="#b5523a" stroke-width="2" marker-end="url(#ar)"
+        points="56,96 196,90 336,80 476,72 616,56 756,44 896,32 1120,16"/>
+      <g fill="#b5523a">
+        <circle cx="56" cy="96" r="3"/><circle cx="196" cy="90" r="3"/>
+        <circle cx="336" cy="80" r="3"/><circle cx="476" cy="72" r="3"/>
+        <circle cx="616" cy="56" r="3"/><circle cx="756" cy="44" r="3"/>
+        <circle cx="896" cy="32" r="3"/><circle cx="1120" cy="16" r="3"/>
+      </g>
+    </svg>
+    <div class="arc-cap"><span>старт · хаос, нет доверия к ИИ</span><span>уверенность студента →</span><span>контроль · системный воркфлоу</span></div>
+  </div>
+
+  <div class="map">
+    <div class="rowlabel wkhead"></div>
+    <div class="wkhead"><div class="wknum">W1</div><div class="wkname">Почему промпты ломаются · менеджер отделов</div></div>
+    <div class="wkhead"><div class="wknum">W2</div><div class="wkname">От задачи к спецификации</div></div>
+    <div class="wkhead"><div class="wknum">W3</div><div class="wkname">Управление контекстом</div></div>
+    <div class="wkhead"><div class="wknum">W4</div><div class="wkname">Постановка задач агенту</div></div>
+    <div class="wkhead"><div class="wknum">W5</div><div class="wkname">Контроль качества AI-кода</div></div>
+    <div class="wkhead"><div class="wknum">W6</div><div class="wkname">Тестирование AI-разработки</div></div>
+    <div class="wkhead"><div class="wknum">W7</div><div class="wkname">Легаси и существующий код</div></div>
+    <div class="wkhead"><div class="wknum">W8</div><div class="wkname">Сквозной проект и защита</div></div>
+
+    <div class="rowlabel">Что делает</div>
+    <div class="cell">Классифицирует сбой агента; строит модель «менеджер ↔ отделы»: что отдать ИИ, что проверять</div>
+    <div class="cell">Пишет спеку (EARS, clarification), прогон агента с/без</div>
+    <div class="cell">Собирает контекст-файл (AGENTS.md/CLAUDE.md), границы</div>
+    <div class="cell">Ставит задачу в scope, ведёт агента по плану с контрольными точками</div>
+    <div class="cell">Ревьюит AI-код по чек-листу на подсаженных дефектах</div>
+    <div class="cell">Пишет тесты из EARS, негативы, coverage, CI</div>
+    <div class="cell">Фича/багфикс/рефактор через спеку в чужом коде</div>
+    <div class="cell">Собирает полный цикл, защищает перед экспертом</div>
+
+    <div class="rowlabel">Пример задачи</div>
+    <div class="cell">Выбрать задачу проекта: фича/багфикс/рефактор (напр. «отмена заказа» в REST-API заметок/задач, Telegram-боте)</div>
+    <div class="cell">Спека на «эндпоинт отмены заказа (окно 30 мин)» с EARS-критериями</div>
+    <div class="cell">AGENTS.md проекта: запретить менять схему БД, разрешить только services/</div>
+    <div class="cell">Провести агента: реализовать отмену в scope order_service.py</div>
+    <div class="cell">Ревью PR агента с подсаженными дефектами (выдуманный API, лишний файл)</div>
+    <div class="cell">Тесты на отмену: happy + просрочка окна + пустой ввод; зелёный CI</div>
+    <div class="cell">Багфикс в выданном легаси-репо, не сломав смежное</div>
+    <div class="cell">Финальная фича end-to-end + защита репозитория</div>
+
+    <div class="rowlabel">Артефакт</div>
+    <div class="artifact">карта доверия/<br>контроля + тема</div>
+    <div class="artifact">спека —<br>5 секций, EARS</div>
+    <div class="artifact">AGENTS.md /<br>CLAUDE.md</div>
+    <div class="artifact">agent plan<br>+ PR</div>
+    <div class="artifact">чек-лист ревью<br>+ PR</div>
+    <div class="artifact">тесты +<br>coverage, CI</div>
+    <div class="artifact">PR в<br>легаси-репо</div>
+    <div class="artifact">репозиторий<br>+ защита</div>
+
+    <div class="rowlabel">Технологии</div>
+    <div class="artifact">стек студента; Cursor / Claude Code / Copilot / ChatGPT; Git</div>
+    <div class="artifact">Markdown spec, EARS, Gherkin, Spec Kit, NEEDS CLARIFICATION</div>
+    <div class="artifact">AGENTS.md, CLAUDE.md, copilot-instructions, правила репо</div>
+    <div class="artifact">agent mode, git diff/PR, branch workflow, prompt chaining</div>
+    <div class="artifact">review checklist, Copilot/Codex review, ESLint/Ruff</div>
+    <div class="artifact">PyTest/Jest/JUnit/Vitest/Playwright, coverage, GitHub Actions</div>
+    <div class="artifact">git, dependency graph, ADR, Mermaid, тест-раннер</div>
+    <div class="artifact">GitHub репо, README, рубрика защиты, весь стек выше</div>
+
+    <div class="rowlabel">Боль (опрос)</div>
+    <div class="cell pain">«всё хаотично, нет системы»</div>
+    <div class="cell pain">«сносит рабочее решение»</div>
+    <div class="cell pain">«не знает контекст проекта»</div>
+    <div class="cell pain">«лишние правки, выход за scope»</div>
+    <div class="cell pain">«галлюцинирует, сложно ревьюить»</div>
+    <div class="cell pain">«доверять нельзя без проверки»</div>
+    <div class="cell pain">«как подключать ИИ к легаси»</div>
+    <div class="cell pain">«нет доказательства навыка»</div>
+
+    <div class="rowlabel">Образ. результат</div>
+    <div class="cell outcome">Атрибутирует сбой ≥3/4; распределяет задачи по «отделам»</div>
+    <div class="cell outcome">Спека покрывает 5 секций; расхождение с/без</div>
+    <div class="cell outcome">Агент не выходит за границы, не трогает запретное</div>
+    <div class="cell outcome">diff соответствует спеке, лишнее отклонено</div>
+    <div class="cell outcome">Ловит ≥80% типовых дефектов до мерджа</div>
+    <div class="cell outcome">Критичная логика покрыта, CI зелёный</div>
+    <div class="cell outcome">Тесты зелёные, смежное не сломано</div>
+    <div class="cell outcome">Полный spec-driven цикл на защите</div>
+
+    <div class="rowlabel">4C/ID</div>
+    <div><span class="tag t-SI">SI</span></div>
+    <div><span class="tag t-PI">PI</span><span class="tag t-LT">LT</span></div>
+    <div><span class="tag t-PI">PI</span></div>
+    <div><span class="tag t-LT">LT</span></div>
+    <div><span class="tag t-PP">PP</span><span class="tag t-PI">PI</span></div>
+    <div><span class="tag t-PP">PP</span></div>
+    <div><span class="tag t-LT">LT</span></div>
+    <div><span class="tag t-LT">LT</span></div>
+  </div>
+
+  <div class="opt">
+    <b>Nice-to-have · опционально</b><br>
+    <b style="color:#6f7a52">Дизайн-система как спека для UI</b> — не отдельная неделя. Опциональный трек для frontend/fullstack: врезка в W3–W4 для UI-задач (токены, компоненты, правила = контекст для агента, чтобы UI был консистентным). Не входит в обязательный канон. Другие опции (enrichment/v2): безопасность AI-разработки, локальные модели/стоимость.
+  </div>
+
+  <div class="legend">
+    <span><b>4C/ID:</b></span>
+    <span><span class="tag t-LT">LT</span> learning tasks — целостные задачи, сквозной/финальный проект</span>
+    <span><span class="tag t-SI">SI</span> supportive info — теория, ментальные модели</span>
+    <span><span class="tag t-PI">PI</span> procedural info — шаблоны, чек-листы (just-in-time)</span>
+    <span><span class="tag t-PP">PP</span> part-task practice — отработка рекуррентных навыков</span>
+  </div>
+
+  <footer>Proglib Academy · spec-driven AI development · канон 8 недель + менеджер отделов в W1 · дизайн-система = nice-to-have · сквозной проект → защита</footer>
+</body>
+</html>

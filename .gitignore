@@ -1,0 +1,12 @@
+# Сенситив — НЕ публиковать (опрос студентов, внутренняя гугл-таблица)
+00-source-materials/анкета.numbers
+00-source-materials/sdd-google-sheet.xlsx
+00-source-materials/sheet-dump.txt
+
+# Внутренний экспорт (xlsx деливербл)
+01-deliverables/
+
+# OS/junk
+Thumbs.db
+.DS_Store
+desktop.ini

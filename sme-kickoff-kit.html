@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDD-курс — LXD kickoff-kit для обсуждения с SME</title>
+<style>
+  :root{--paper:#faf7f2;--paper2:#fff;--ink:#1c1917;--muted:#6f6557;--soft:#9a9082;
+    --rule:rgba(28,25,23,0.14);--accent:#b5523a;--tint:#f0ddd6;--link:#2e5aa8;--olive:#5f6b45;
+    --ok:#3f7d4e;--band:#f4ece2;}
+  *{box-sizing:border-box;}html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,"Segoe UI",Roboto,system-ui,sans-serif;font-size:15px;line-height:1.55;}
+  .wrap{display:grid;grid-template-columns:256px 1fr;max-width:1340px;margin:0 auto;}
+  nav{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;padding:26px 16px;border-right:1px solid var(--rule);background:var(--band);}
+  nav h2{font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;font-weight:700;}
+  nav a{display:block;color:var(--ink);text-decoration:none;font-size:13px;padding:5px 8px;border-radius:5px;border-left:2px solid transparent;}
+  nav a:hover{background:rgba(181,82,58,0.08);border-left-color:var(--accent);color:var(--accent);}
+  nav a.sub{padding-left:18px;font-size:12px;color:var(--muted);}
+  main{padding:38px 50px 80px;min-width:0;}
+  header.hd{border-bottom:2px solid var(--ink);padding-bottom:18px;}
+  .eyebrow{font-family:ui-monospace,Consolas,monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent);margin:0 0 8px;font-weight:600;}
+  h1{font-family:Georgia,serif;font-weight:400;font-size:36px;line-height:1.08;margin:0 0 10px;}
+  .lead{font-size:16px;color:var(--muted);max-width:82ch;}
+  .meta-strip{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+  .chip{font-family:ui-monospace,monospace;font-size:11px;background:var(--paper2);border:1px solid var(--rule);border-radius:4px;padding:4px 9px;color:var(--muted);}
+  h2.sec{font-family:Georgia,serif;font-weight:400;font-size:26px;margin:46px 0 6px;padding-top:14px;border-top:1px solid var(--rule);}
+  h2.sec .n{font-family:ui-monospace,monospace;font-size:14px;color:var(--accent);margin-right:10px;}
+  h3{font-size:18px;margin:24px 0 8px;}h4{font-size:14px;margin:16px 0 6px;color:var(--ink);}
+  p{margin:8px 0;}ul,ol{margin:8px 0;padding-left:22px;}li{margin:3px 0;}
+  code{font-family:ui-monospace,monospace;font-size:12.5px;background:var(--band);padding:1px 5px;border-radius:3px;}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:12.5px;}
+  th,td{border:1px solid var(--rule);padding:7px 9px;text-align:left;vertical-align:top;}
+  th{background:var(--ink);color:#fff;font-weight:600;font-size:11.5px;}
+  tbody tr:nth-child(even){background:rgba(28,25,23,0.025);}
+  .callout{border:1px solid var(--rule);border-left:4px solid var(--accent);background:var(--paper2);border-radius:0 6px 6px 0;padding:12px 16px;margin:16px 0;}
+  .callout.ok{border-left-color:var(--ok);background:#f1f7f2;}
+  .callout.q{border-left-color:var(--link);background:#eef3fa;}
+  .callout .t{font-weight:700;font-size:12px;letter-spacing:0.04em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
+  .callout.ok .t{color:var(--ok);}.callout.q .t{color:var(--link);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .card{border:1px solid var(--rule);border-radius:8px;background:var(--paper2);padding:16px 18px;margin:14px 0;}
+  .wk{border:1px solid var(--rule);border-radius:8px;background:var(--paper2);margin:16px 0;overflow:hidden;}
+  .wk-h{background:var(--ink);color:#fff;padding:10px 16px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;}
+  .wk-h .w{font-family:ui-monospace,monospace;font-size:12px;color:#e8b9ab;}
+  .wk-h .ttl{font-size:16px;font-weight:600;}
+  .wk-h .bb{margin-left:auto;font-family:ui-monospace,monospace;font-size:10px;background:rgba(255,255,255,0.14);padding:3px 7px;border-radius:3px;}
+  .wk-b{padding:14px 18px;}
+  .lbl{font-family:ui-monospace,monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-top:12px;}
+  .ex{background:var(--band);border-radius:6px;padding:10px 12px;margin:6px 0;font-size:13px;}
+  .ex b{color:var(--accent);}
+  .tag{display:inline-block;font-family:ui-monospace,monospace;font-size:10px;border:1px solid;border-radius:3px;padding:1px 5px;margin-left:3px;}
+  .ad{color:var(--ok);border-color:var(--ok);}.di{color:var(--accent);border-color:var(--accent);}
+  .src{font-family:ui-monospace,monospace;font-size:10.5px;color:var(--soft);}
+  footer{margin-top:54px;padding-top:14px;border-top:1px solid var(--rule);font-family:ui-monospace,monospace;font-size:11px;color:var(--soft);}
+  @media print{.wrap{grid-template-columns:1fr;}nav{display:none;}main{padding:0;}body{font-size:11pt;}.wk,.card,table{page-break-inside:avoid;}}
+  @media(max-width:900px){.wrap{grid-template-columns:1fr;}nav{position:static;height:auto;}main{padding:22px;}.grid2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+  <h2>Kickoff-kit</h2>
+  <a href="#about">0 · Как читать / зачем</a>
+  <a href="#bench">1 · Бенчмарк → решения</a>
+  <a href="#persona">2 · Персона · гейт · тиры</a>
+  <a href="#need">3 · Потребность (gap)</a>
+  <a href="#outcomes">4 · Образовательные результаты</a>
+  <a href="#journey">5 · Карта курса (journey)</a>
+  <a href="#blueprints">6 · Блюпринты + примеры заданий</a>
+  <a href="#w1" class="sub">W1 · W2 · W3 · W4</a>
+  <a href="#w5" class="sub">W5 · W6 · W7 · W8</a>
+  <a href="#competency">7 · Карта компетенций</a>
+  <a href="#assess">8 · Оценка</a>
+  <a href="#sme">9 · Вопросы к SME</a>
+</nav>
+<main>
+<header class="hd">
+  <p class="eyebrow">LXD Kickoff-kit · для обсуждения с экспертом (SME)</p>
+  <h1>Управляемая разработка с ИИ — методический набор для старта</h1>
+  <p class="lead">Полный описательный набор, чтобы согласовать курс с экспертом ДО разработки: на чём строим решения (бенчмарк рынка), кого учим, чему научим (образовательные результаты), как устроен путь студента, блюпринты всех 8 модулей с конкретными примерами заданий, оценка — и список решений, которые нужно подтвердить с SME.</p>
+  <div class="meta-strip">
+    <span class="chip">8 недель · воркшопы</span>
+    <span class="chip">ЦА: junior+ → senior/lead</span>
+    <span class="chip">backbone: Specify→Plan→Tasks→Implement→Verify</span>
+    <span class="chip">козыри: легаси + капстоун</span>
+  </div>
+</header>
+
+<h2 class="sec" id="about"><span class="n">0</span>Как читать этот документ</h2>
+<p>Это <b>kickoff-kit</b> — методическая основа для встречи с экспертом. Решения приняты на фактах:
+источник правды (гугл-таблица курса, 24 вкладки) + опрос студентов + <b>бенчмарк</b> того, как
+SDD преподают другие (Spec Kit, DeepLearning.AI, Udemy, Kiro, Tessl, CodePath). Зелёным <span class="tag ad">ADOPT</span>
+помечено проверенное у конкурентов, что берём; красным <span class="tag di">DIFF</span> — наши отличия (пробелы рынка).
+Раздел §9 — что нужно от SME. Полный внутренний LXD-дизайн (нагрузка, run-of-show, риски) — в `sdd-course-design.html`.</p>
+
+<h2 class="sec" id="bench"><span class="n">1</span>Бенчмарк рынка → решения</h2>
+<p>Все серьёзные источники учат один <b>backbone</b>: <b>Constitution/Steering → Specify → (Clarify) → Plan → Tasks → Implement → Verify</b>. Инструменты учат механике, курсы — смене мышления. Почти всё — короткое, self-paced, видео+квиз, один проект. Полный отчёт: `00-source-materials/competitor-benchmark.md`.</p>
+<table>
+<thead><tr><th>Кто</th><th>Формат</th><th>Метод/фазы</th><th>Сильное</th><th>Слабое (= наш шанс)</th></tr></thead>
+<tbody>
+<tr><td>GitHub Spec Kit</td><td>free CLI, agent-agnostic</td><td>constitution→specify→clarify→plan→tasks→implement</td><td>полные гейты, governance</td><td>~8 файлов, «многословно», агент игнорит ограничения</td></tr>
+<tr><td>DeepLearning.AI + JetBrains</td><td>~15 видео + 1 квиз, beginner</td><td>plan→implement→verify, реплан</td><td>есть легаси и заменяемость агента</td><td>beginner, нет капстоуна</td></tr>
+<tr><td>Udemy (Skliar)</td><td>~3.5ч, квиз/урок</td><td>Specify→Plan→Tasks→Implement + drift</td><td>mindset, governance, EARS</td><td>коротко, мало brownfield</td></tr>
+<tr><td>AWS Kiro</td><td>IDE</td><td>Requirements(EARS)→Design→Tasks</td><td>EARS тестируем, мало файлов</td><td>избыточен для мелочи</td></tr>
+<tr><td>Tessl</td><td>tooling (beta)</td><td>spec-as-source, регенерация</td><td>долгая жизнь спеки</td><td>beta, недетерминизм</td></tr>
+<tr><td>CodePath Applied AI</td><td>10-нед когорта, live+дз</td><td>augmented dev → apps → OSS</td><td>формат-аналог нам</td><td>не про SDD напрямую</td></tr>
+</tbody>
+</table>
+
+<div class="grid2">
+<div class="callout ok"><div class="t">ADOPT — берём проверенное</div>
+<ul>
+<li>7-шаговый backbone как явный костяк; tool-agnostic, Spec Kit как reference (free).</li>
+<li><b>EARS</b>-нотация для acceptance criteria (W2): <code>WHEN [событие] THE SYSTEM SHALL [поведение]</code>.</li>
+<li><b>Clarification gate</b> (<code>NEEDS CLARIFICATION</code>) до планирования.</li>
+<li>Constitution/steering + AGENTS.md/CLAUDE.md (наш W3).</li>
+<li>Mindset «power inversion» + lineage TDD/BDD→SDD (W1).</li>
+<li>Проект, растущий фича-за-фичей с репланом; поурочные квизы.</li>
+</ul></div>
+<div class="callout"><div class="t" style="color:var(--accent)">DIFFERENTIATE — наши козыри (пробелы рынка)</div>
+<ul>
+<li><b>Легаси/brownfield вглубь</b> — отдельная неделя W7 (у других 0–1 урок).</li>
+<li><b>Реальный graded капстоун + защита</b> (W8) — конкуренты стоп на квизе.</li>
+<li><b>Governance на команду</b> — мульти-автор спеки, PR-ревью спек (senior-трек).</li>
+<li><b>Когда SDD избыточен</b> — честный блок про review fatigue (пробел, на который указывает Fowler).</li>
+<li><b>Drift detection / жизнь спеки</b> — операционная дисциплина (advanced).</li>
+</ul></div>
+</div>
+<div class="callout ok"><div class="t">Вывод</div>Наш 8-недельный канон (из ленда) уже совпадает с индустриальным backbone и закрывает 2 главных пробела рынка (легаси, капстоун). Точечные усиления из бенчмарка: <b>EARS + clarification gate в W2</b>, блок «когда SDD избыточен», governance-на-команду для senior.</div>
+
+<h2 class="sec" id="persona"><span class="n">2</span>Персона · гейт · тиры</h2>
+<div class="grid2">
+<div class="card"><h4>Персона (из опроса + концепции)</h4>
+<ul>
+<li>Коммерческий/проектный разработчик: <b>junior+ → senior/lead</b>; +QA automation, tech lead, тех-фаундер.</li>
+<li>Роли: backend/frontend/mobile/devops; стек JS/TS, Python, Java/Kotlin, Go, C#.</li>
+<li>ИИ юзает ежедневно (Cursor/Claude/Copilot/ChatGPT), но хаотично.</li>
+<li>Боль: агент сносит код, не знает контекст, галлюцинирует, нет системы.</li>
+</ul></div>
+<div class="card"><h4>Гейт — по способности пройти петлю</h4>
+<p>Режем не по «вкусу к качеству» (это результат курса), а по механике участия: читает чужой код · Git (ветки/PR) · запускает тесты · ставит задачу · кодит на 1+ языке. Анти-портрет: не кодит, не знает Git, «приложение без кода».</p></div>
+</div>
+<h4>Тиры (scaffolding fade) — одна полоса, три глубины</h4>
+<table>
+<thead><tr><th>Рычаг</th><th>T1 junior+</th><th>T2 middle (ядро)</th><th>T3 senior/lead</th></tr></thead>
+<tbody>
+<tr><td>Опора</td><td>шаблон + worked example</td><td>пустой шаблон + чек-лист</td><td>без шаблона, только критерий</td></tr>
+<tr><td>Проект</td><td>учебный</td><td>свой рабочий код</td><td>свой легаси + ограничения</td></tr>
+<tr><td>Критерий</td><td>процесс пройден</td><td>+ доказан эффект</td><td>+ командный стандарт</td></tr>
+</tbody></table>
+<p class="src">Expertise reversal: сениору worked example избыточен — стартует с T3. Тир — стартовая точка, не клетка.</p>
+
+<h2 class="sec" id="need"><span class="n">3</span>Потребность (gap-анализ)</h2>
+<p><b>Разрыв:</b> разработчики юзают ИИ хаотично — задача общими словами, большой кусок кода, нет контроля. Корень — задача <b>плохо формализована</b>, а не «ИИ плохо пишет». <b>Тренинг решает</b> (skill/knowledge-gap: формализация, контекст, проверка). Барьеры среды (setup, платные токены) — не контентом, а pre-work + бесплатный путь.</p>
+
+<h2 class="sec" id="outcomes"><span class="n">4</span>Образовательные результаты</h2>
+<p>Формат ABCD (Audience·Behavior·Condition·Degree). Полные формулировки — `program-and-outcomes.md`.</p>
+<h4>Уровень программы (что выпускник умеет делать)</h4>
+<ol>
+<li><b>ОР-1:</b> проводит задачу через полный spec-driven цикл, управляя агентом → все критерии готовности без ручного переписывания. <span class="tag di">DIFF капстоун</span></li>
+<li><b>ОР-2:</b> формализует задачу в спецификацию (требования, ограничения, EARS-AC, DoD, тесты). <span class="tag ad">EARS</span></li>
+<li><b>ОР-3:</b> управляет контекстом (constitution/AGENTS.md/CLAUDE.md) → агент не выходит за границы.</li>
+<li><b>ОР-4:</b> ставит и ведёт агента в scope с контрольными точками → diff соответствует спеке.</li>
+<li><b>ОР-5:</b> проверяет AI-код тестами и ревью → ловит ≥80% типовых дефектов.</li>
+<li><b>ОР-6:</b> применяет ИИ в легаси и встраивает процесс в команду. <span class="tag di">DIFF легаси</span></li>
+</ol>
+<h4>По неделям (ABCD, кратко)</h4>
+<table>
+<thead><tr><th>Нед.</th><th>B (что делает)</th><th>D (критерий)</th></tr></thead>
+<tbody>
+<tr><td>W1</td><td>классифицирует сбой агента (контекст/доверие/хаос/качество)</td><td>≥3 из 4 кейсов верно</td></tr>
+<tr><td>W2</td><td>составляет спеку с EARS-AC + clarification</td><td>5 секций; результат с/без спеки расходится</td></tr>
+<tr><td>W3</td><td>готовит контекст-файл (constitution)</td><td>агент не трогает запретное</td></tr>
+<tr><td>W4</td><td>ставит задачу в scope, ведёт по плану</td><td>diff соответствует спеке</td></tr>
+<tr><td>W5</td><td>ревью AI-кода по чек-листу</td><td>≥80% дефектов до мерджа</td></tr>
+<tr><td>W6</td><td>тест-стратегия из EARS + coverage</td><td>негативы есть, CI зелёный</td></tr>
+<tr><td>W7</td><td>изменение через спеку в легаси</td><td>тесты зелёные, смежное цело</td></tr>
+<tr><td>W8</td><td>полный цикл + защита</td><td>рубрика защиты</td></tr>
+</tbody></table>
+
+<h2 class="sec" id="journey"><span class="n">5</span>Карта курса (journey)</h2>
+<p>Один поток, 8 недель. Каждая неделя = шаг сквозного проекта. Кривая: от хаоса промптов к управляемому процессу.</p>
+<table>
+<thead><tr><th>Слой</th><th>W1</th><th>W2</th><th>W3</th><th>W4</th><th>W5</th><th>W6</th><th>W7</th><th>W8</th></tr></thead>
+<tbody>
+<tr><td><b>Фаза backbone</b></td><td>Mindset</td><td>Specify+Clarify</td><td>Constitution</td><td>Plan+Tasks+Implement</td><td>Verify (review)</td><td>Verify (tests)</td><td>Brownfield</td><td>Capstone</td></tr>
+<tr><td><b>Что делает</b></td><td>классифицирует сбой</td><td>пишет спеку</td><td>пишет контекст</td><td>ведёт агента</td><td>ревьюит</td><td>тестирует</td><td>чинит легаси</td><td>защищает</td></tr>
+<tr><td><b>Артефакт</b></td><td>карта доверия</td><td>спека (EARS)</td><td>AGENTS.md</td><td>agent plan + PR</td><td>чек-лист ревью</td><td>тесты + CI</td><td>PR в легаси</td><td>репо + защита</td></tr>
+<tr><td><b>Нагрузка</b></td><td>low</td><td>high</td><td>med</td><td>med</td><td>med</td><td>med</td><td>high</td><td>high</td></tr>
+</tbody></table>
+
+<h2 class="sec" id="blueprints"><span class="n">6</span>Блюпринты модулей + примеры заданий</h2>
+<p>На каждый модуль: результат, что учим, метод/инструмент (с пометкой бенчмарка), <b>конкретный пример задания</b>, артефакт, проверка. Примеры заданий — благодатные паттерны из бенчмарка, адаптированные.</p>
+
+<div class="wk" id="w1"><div class="wk-h"><span class="w">W1</span><span class="ttl">Почему промпты ломаются</span><span class="bb">Mindset</span></div><div class="wk-b">
+<div class="lbl">Учим</div><p>«Power inversion»: код служит спеке. Lineage TDD/BDD→SDD. 4 типа сбоя: контекст/доверие/хаос/качество. <span class="tag ad">Udemy M1</span></p>
+<div class="lbl">Пример задания</div>
+<div class="ex"><b>Атрибуция сбоя:</b> дано 4 диалога «промпт → результат агента». Определи тип сбоя в каждом и привяжи к неделе-лечению (контекст→W3, доверие→W5/6, хаос→W2, качество→W5). <b>Демо:</b> напиши мини-конституцию, нарушь её, посмотри, как агент дрейфует. <span class="tag ad">Spec Kit gate-demo</span></div>
+<div class="lbl">Артефакт / проверка</div><p>Карта доверия/контроля + тема проекта. ≥3 из 4 кейсов верно.</p>
+</div></div>
+
+<div class="wk" id="w2"><div class="wk-h"><span class="w">W2</span><span class="ttl">От задачи к спецификации</span><span class="bb">Specify + Clarify</span></div><div class="wk-b">
+<div class="lbl">Учим</div><p>Спека: цель, требования, ограничения, EARS-AC, DoD, тесты. Clarification gate. <span class="tag ad">EARS · NEEDS CLARIFICATION</span></p>
+<div class="lbl">Пример задания</div>
+<div class="ex"><b>Vague → EARS:</b> дана размытая user story «хочу отмену заказа». Перепиши требования в EARS (<code>WHEN отмена в окне 30 мин THE SYSTEM SHALL отменить заказ</code>), помечай неясное <code>NEEDS CLARIFICATION</code>, затем сгенерь тест-кейсы прямо из EARS-критериев. <b>+A/B:</b> прогон агента с/без спеки, зафиксируй расхождение. <span class="tag ad">Kiro/Udemy</span></div>
+<div class="lbl">Артефакт / проверка</div><p>Спека (5 секций, EARS). Все секции; измеримое расхождение с/без.</p>
+</div></div>
+
+<div class="wk" id="w3"><div class="wk-h"><span class="w">W3</span><span class="ttl">Управление контекстом (constitution)</span><span class="bb">Steering</span></div><div class="wk-b">
+<div class="lbl">Учим</div><p>Constitution/steering: AGENTS.md/CLAUDE.md, «always / ask first / never do», границы изменений. <span class="tag ad">Spec Kit · Udemy M3</span></p>
+<div class="lbl">Пример задания</div>
+<div class="ex"><b>Конституция репо:</b> напиши AGENTS.md для своего репо с «always/ask/never» и списком запретных файлов. Затем <b>намеренно опусти одну границу</b> и прогони задачу — увидь, как агент полезет лишнее. Добавь границу, повтори. <span class="tag ad">DLAI lesson 6</span></div>
+<div class="lbl">Артефакт / проверка</div><p>AGENTS.md/CLAUDE.md. Агент не трогает запретные файлы.</p>
+</div></div>
+
+<div class="wk" id="w4"><div class="wk-h"><span class="w">W4</span><span class="ttl">Постановка задач агенту</span><span class="bb">Plan + Tasks + Implement</span></div><div class="wk-b">
+<div class="lbl">Учим</div><p>План → атомарные задачи (с зависимостями) → implement human-in-the-loop, контрольные точки. <span class="tag ad">Spec Kit tasks · Kiro waves</span></p>
+<div class="lbl">Пример задания</div>
+<div class="ex"><b>Quick vs gated A/B:</b> проведи одну задачу «быстрым планом» без гейтов и ту же — через план+tasks с контрольными точками. Сравни diff, лишние правки, переделки. Прочувствуй цену пропуска гейтов. <span class="tag ad">Kiro Quick Plan</span></div>
+<div class="lbl">Артефакт / проверка</div><p>Agent plan + PR. Diff соответствует спеке, лишнее отклонено.</p>
+</div></div>
+
+<div class="wk" id="w5"><div class="wk-h"><span class="w">W5</span><span class="ttl">Контроль качества AI-кода</span><span class="bb">Verify · review</span></div><div class="wk-b">
+<div class="lbl">Учим</div><p>Чек-лист ревью (соответствие/границы/галлюцинации/тех-долг/безопасность). Типовые ошибки агента.</p>
+<div class="lbl">Пример задания</div>
+<div class="ex"><b>Охота на дефекты:</b> дан PR с 10 подсаженными дефектами (выдуманный API, лишний файл, заглушка, захардкоженный ключ, скрытый регресс <code>&lt;= → &lt;</code>, фейк-тест...). Найди по чек-листу, верни агенту точечно. Цель: T1 ≥3/4, T2 ≥6/8, T3 ≥8/10. <span class="tag di">наш набор</span></div>
+<div class="lbl">Артефакт / проверка</div><p>Заполненный чек-лист + исправленный PR. Детект ≥80%.</p>
+</div></div>
+
+<div class="wk" id="w6"><div class="wk-h"><span class="w">W6</span><span class="ttl">Тестирование AI-разработки</span><span class="bb">Verify · tests</span></div><div class="wk-b">
+<div class="lbl">Учим</div><p>Тесты из спеки (не после кода), негативы, coverage как критерий, CI. <span class="tag ad">tests-as-spec</span></p>
+<div class="lbl">Пример задания</div>
+<div class="ex"><b>EARS → тесты:</b> возьми EARS-критерии из своей спеки (W2) и сгенерь из них набор тестов (happy + негатив + edge), прогони в CI, добей покрытие критичной логики. <span class="tag ad">Kiro/Udemy</span></div>
+<div class="lbl">Артефакт / проверка</div><p>Тесты + coverage-отчёт, зелёный CI. Негативы есть.</p>
+</div></div>
+
+<div class="wk" id="w7"><div class="wk-h"><span class="w">W7</span><span class="ttl">Легаси и существующий код</span><span class="bb">Brownfield · DIFF</span></div><div class="wk-b">
+<div class="lbl">Учим</div><p>Ретрофит SDD на чужой грязный репо без сноса смежного; предотвращение тех-долга. <span class="tag di">главный козырь — у конкурентов 0–1 урок</span></p>
+<div class="lbl">Пример задания</div>
+<div class="ex"><b>Ретрофит на легаси:</b> дан учебный легаси-репо с тестами и «минами» (хрупкие зависимости). Напиши спеку на багфикс/фичу, конституцию для этого репо, проведи агента — изменение проходит тесты и не ломает смежное. T3: свой рабочий легаси + бюджет токенов как ограничение.</div>
+<div class="lbl">Артефакт / проверка</div><p>PR в легаси-репо. Тесты зелёные, scope соблюдён.</p>
+</div></div>
+
+<div class="wk" id="w8"><div class="wk-h"><span class="w">W8</span><span class="ttl">Сквозной проект и защита</span><span class="bb">Capstone · DIFF</span></div><div class="wk-b">
+<div class="lbl">Учим</div><p>Сборка полного цикла; как доказать управление ИИ, не только итог. <span class="tag di">graded капстоун + peer review</span></p>
+<div class="lbl">Пример задания</div>
+<div class="ex"><b>Капстоун:</b> отгрузи фичу с полным следом задача→спека(EARS)→контекст→tasks→implement→тесты→ревью→доработка. Защита 5–7 мин: покажи, как спека удержала агента, что поймало ревью. Peer review спеки сокурсника. <span class="tag ad">IBM/OpenAI capstone</span></div>
+<div class="lbl">Артефакт / проверка</div><p>Репозиторий + защита. Рубрика (6 критериев × T1–T3) — `02-materials/defense-rubric.md`.</p>
+</div></div>
+
+<div class="callout"><div class="t">Опц. enrichment (senior-трек / v2, из бенчмарка)</div>
+Governance на команду (мульти-автор спеки, PR-ревью спек) · drift detection / жизнь спеки (идея Tessl) ·
+честный блок «когда SDD избыточен» (review fatigue, Fowler) · architecture-decision спеки + contract testing.
+Из опроса (вне канона): безопасность AI-разработки, локальные модели/стоимость.</div>
+
+<h2 class="sec" id="competency"><span class="n">7</span>Карта компетенций</h2>
+<p>Формат вкладки «3. Карта компетенций». Полная — в `program-and-outcomes.md` §4.</p>
+<table>
+<thead><tr><th>Нед.</th><th>Компетенция</th><th>Навык</th><th>Инструменты</th></tr></thead>
+<tbody>
+<tr><td>W2</td><td>переводить задачу в спецификацию</td><td>написание спеки, EARS, декомпозиция</td><td>Markdown, EARS, Spec Kit, Gherkin</td></tr>
+<tr><td>W3</td><td>управлять контекстом агента</td><td>составление конституции, границы</td><td>AGENTS.md, CLAUDE.md, copilot-instructions</td></tr>
+<tr><td>W4</td><td>ставить и вести агента</td><td>план, контроль diff, коррекция</td><td>Cursor, Claude Code, Copilot, agent mode</td></tr>
+<tr><td>W5</td><td>контролировать качество</td><td>ревью, ловля галлюцинаций/тех-долга</td><td>review checklist, Copilot/Codex review</td></tr>
+<tr><td>W6</td><td>тестировать AI-разработку</td><td>тесты из EARS, coverage, CI</td><td>PyTest/Jest/JUnit, GitHub Actions</td></tr>
+<tr><td>W7</td><td>применять ИИ в легаси</td><td>безопасный рефактор через спеку</td><td>git, dependency graph, ADR</td></tr>
+</tbody></table>
+
+<h2 class="sec" id="assess"><span class="n">8</span>Оценка</h2>
+<div class="grid2">
+<div class="card"><h4>Kirkpatrick → метрики групп</h4>
+<ul>
+<li>L1 реакция — NPS, балл занятия ≥4.5</li>
+<li>L2 обучение — артефакт-критерий/нед + рубрика; ревью-детект ≥80%</li>
+<li>L3 поведение — опрос 30/60 дн: применил ли spec-driven (≥50%)</li>
+<li>L4 результат — кейсы внедрения в команду</li>
+</ul></div>
+<div class="card"><h4>Leading indicators</h4>
+<ul>
+<li>COR (70% занятий, 50% ДЗ) + доходимость до проекта</li>
+<li>Ревью-детект W5 — ранний прокси освоения ядра</li>
+<li>Расхождение с/без спеки W2 — early win</li>
+</ul></div>
+</div>
+<p>Капстоун оценивается рубрикой защиты (6 критериев × T1/T2/T3), дуально «принято/возврат» + peer review.</p>
+
+<h2 class="sec" id="sme"><span class="n">9</span>Вопросы и решения к SME</h2>
+<p>Что подтвердить/заполнить с экспертом до разработки.</p>
+<div class="callout q"><div class="t">Контент и метод</div>
+<ol>
+<li>Подтвердить последовательность 8 недель и усиления из бенчмарка: <b>EARS в W2</b>, <b>clarification gate</b>, <b>«когда SDD избыточен»</b>. Берём?</li>
+<li>Reference-инструмент: учить tool-agnostic на <b>Spec Kit</b> (free) + основной агент потока — <b>Cursor или Claude Code</b>? (бесплатный путь — Copilot/ChatGPT/локальные).</li>
+<li>Стек примеров: ленд говорит «Python middle+», но ЦА мульти-стек. Делаем примеры на <b>Python</b> с языко-нейтральными спеками? Или мульти-стек?</li>
+<li>Глубина governance-на-команду и drift — в основной курс (senior-трек) или v2?</li>
+</ol></div>
+<div class="callout q"><div class="t">Практика и проект</div>
+<ol>
+<li>Источник <b>учебного легаси-репо</b> (W7) и набора <b>подсаженных дефектов</b> (W5) — даёт эксперт или собираем мы?</li>
+<li>Темы сквозного проекта: своя задача студента vs учебный список. Список нужен — кто даёт?</li>
+<li>Капстоун: индивидуально или команды 2–3? Peer review спек — включаем?</li>
+</ol></div>
+<div class="callout q"><div class="t">Орг и роли</div>
+<ol>
+<li>Эксперт/спикер курса — кто ведёт воркшопы (повтор за экспертом — ключевой формат)?</li>
+<li>Длительность воркшопа: ~2 ч/нед — подтверждаем? (формат-аналог CodePath: 1 live 2ч + 4–9ч дз)</li>
+<li>Сертификат участия — ок (не диплом)?</li>
+</ol></div>
+
+<footer>
+SDD course · LXD kickoff-kit для SME · решения на основе бенчмарка (Spec Kit, DeepLearning.AI, Udemy, Kiro, Tessl, CodePath) ·
+источник правды: гугл-таблица курса + опрос · самодостаточный HTML, печатается · proglib academy
+</footer>
+</main>
+</div>
+</body>
+</html>
