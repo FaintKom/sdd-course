@@ -1,0 +1,5 @@
+/* =================================================================
+   GrassLMS — root stylesheet
+   Single entry point for consuming projects: tokens, type, motion.
+   ================================================================= */
+@import url('colors_and_type.css');

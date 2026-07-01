@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/grasslms-design-system-662f3d43-c14a-440f-8946-91af715cfc1f/colors_and_type.css">
+<link rel="stylesheet" href="_ds/grasslms-design-system-662f3d43-c14a-440f-8946-91af715cfc1f/styles.css">
+<script src="_ds/grasslms-design-system-662f3d43-c14a-440f-8946-91af715cfc1f/_ds_bundle.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+.slide{display:flex;height:100%;width:100%;background:var(--paper);color:var(--ink-900);font-family:var(--font-sans);overflow:hidden}
+.lcol{width:44%;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;gap:26px;padding:100px}
+.rcol{flex:1;background:var(--ink-900);position:relative;overflow:hidden}
+.cnv{display:block;width:100%;height:100%}
+.wm{font-weight:800;font-size:30px;color:var(--green-600);letter-spacing:-0.01em}
+.wm i{color:var(--sun-500);font-style:normal}
+.eyebrow{font-family:var(--font-mono);font-size:24px;letter-spacing:.12em;text-transform:uppercase;color:var(--green-600);font-weight:500}
+.meta{font-family:var(--font-mono);font-size:24px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-400);font-weight:400}
+.ttl{font-size:62px;line-height:1.06;font-weight:800;margin:0;letter-spacing:-0.02em}
+.ttl-xl{font-size:82px;line-height:1.02;font-weight:800;margin:0;letter-spacing:-0.025em}
+.mk{font-style:normal;background:var(--sun-300);color:var(--ink-900);padding:.02em .16em;border-radius:5px;display:inline-block;transform:rotate(-1.5deg)}
+.lead{font-size:29px;line-height:1.42;color:var(--ink-500);margin:0;font-weight:500;max-width:19em}
+.formula{font-family:var(--font-mono);font-size:24px;color:var(--ink-700);background:var(--ink-50);border:1px solid var(--ink-100);border-radius:14px;padding:14px 22px;align-self:flex-start;font-weight:500;letter-spacing:.02em}
+.center{flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:90px}
+.big{font-size:70px;font-weight:800;line-height:1.08;margin:0;max-width:15em;letter-spacing:-0.02em}
+.sub{font-size:30px;color:var(--ink-500);max-width:28em;margin:0;font-weight:500;line-height:1.4}
+.pillars{display:flex;gap:26px;margin-top:26px}
+.pill{width:400px;background:var(--paper-2);border:1px solid var(--ink-100);border-radius:18px;box-shadow:var(--shadow-sm);padding:34px;text-align:left;display:flex;flex-direction:column;gap:10px}
+.pk{font-family:var(--font-mono);font-size:24px;letter-spacing:.06em;text-transform:uppercase;color:var(--green-600);font-weight:500}
+.pv{font-size:26px;font-weight:700;line-height:1.25;margin:0}
+.pd{font-size:24px;color:var(--ink-500);line-height:1.35;margin:0}
+.prog{flex-direction:column;justify-content:center;gap:34px;padding:74px 90px}
+.phead{display:flex;flex-direction:column;gap:12px}
+.blocks{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.blk{background:var(--paper-2);border:1px solid var(--ink-100);border-radius:18px;box-shadow:var(--shadow-sm);padding:26px;display:flex;flex-direction:column;gap:12px}
+.bn{font-family:var(--font-mono);font-size:24px;color:var(--green-600);letter-spacing:.06em;font-weight:500}
+.bh{font-size:26px;margin:0;font-weight:700;line-height:1.16}
+.ba{font-family:var(--font-mono);font-size:24px;color:var(--ink-400);line-height:1.3;letter-spacing:.02em}
+.online{display:flex;align-items:center;gap:24px;background:var(--ink-900);color:#fff;border-radius:18px;padding:22px 34px}
+.ol{font-family:var(--font-mono);font-size:24px;letter-spacing:.08em;text-transform:uppercase;color:var(--sun-400);font-weight:500;flex-shrink:0}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{font-size:24px;background:rgba(255,255,255,0.08);color:#fff;border-radius:999px;padding:8px 16px;font-weight:500}
+.fmt{flex-direction:column;justify-content:center;gap:42px;padding:80px 90px}
+.tiles{display:flex;gap:22px}
+.tile{flex:1;background:var(--paper-2);border:1px solid var(--ink-100);border-radius:18px;box-shadow:var(--shadow-sm);padding:30px;display:flex;flex-direction:column;gap:14px}
+.glyph{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:24px;font-weight:500}
+.tt{font-size:25px;font-weight:700;line-height:1.2;margin:0}
+.td{font-size:24px;color:var(--ink-500);line-height:1.35;margin:0}
+.cta{background:var(--ink-900);color:#fff;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:100px;position:relative}
+.cta .cnv{position:absolute;inset:0;opacity:0.4}
+.ctac{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:30px}
+.ctah{font-size:80px;font-weight:800;margin:0;line-height:1.06;letter-spacing:-0.02em;max-width:15em}
+.ctasub{font-family:var(--font-mono);font-size:24px;letter-spacing:.06em;color:rgba(255,255,255,0.6);text-transform:uppercase}
+.btn{background:var(--green-600);color:#fff;font-size:30px;font-weight:700;padding:22px 46px;border-radius:14px;box-shadow:0 4px 0 0 var(--green-800)}
+.ceye{font-family:var(--font-mono);font-size:24px;letter-spacing:.12em;text-transform:uppercase;color:var(--sun-400);font-weight:500}
+</style>
+</helmet>
+<x-import component-from-global-scope="deck-stage" from="./deck-stage.js" width="1920" height="1080" hint-size="100%,100%">
+<section data-label="Титул" data-screen-label="Титул" data-speaker-notes="Управляемая разработка с ИИ (Spec-Driven Development). Ты управляешь ИИ через спецификацию и контроль качества, а не угадываешь промптами. 8 недель, старт 04.08.26." class="slide">
+<div class="lcol">
+<div class="wm">prog<i>lib</i></div>
+<div class="eyebrow">Курс · Spec-Driven Development</div>
+<h1 class="ttl-xl">Управляемая разработка с <em class="mk">ИИ</em></h1>
+<p class="lead">Ты управляешь ИИ через спецификацию и контроль качества — не угадываешь промптами.</p>
+<div class="meta">8 недель · 8 воркшопов · сквозной проект · старт 04.08.26</div>
+</div>
+<div class="rcol"><canvas id="cnv-title" class="cnv"></canvas></div>
+</section>
+<section data-label="Большая идея" data-screen-label="Большая идея" data-speaker-notes="Задача проходит полный цикл: спека, контекст, агент, тесты, ревью. Ты ведёшь ИИ, а не переписываешь за ним." class="slide center">
+<h2 class="big">Не промпт-лотерея, а <em class="mk">управление</em></h2>
+<p class="sub">Задача проходит полный цикл: спека → контекст → агент → тесты → ревью. Ты ведёшь ИИ, а не переписываешь за ним.</p>
+<div class="pillars">
+<div class="pill"><span class="pk">Спецификация</span><p class="pv">Рамка для агента</p><p class="pd">Требования, ограничения, DoD — агент не додумывает.</p></div>
+<div class="pill"><span class="pk">Контекст</span><p class="pv">Границы проекта</p><p class="pd">Архитектура и запретные зоны в AGENTS.md.</p></div>
+<div class="pill"><span class="pk">Контроль</span><p class="pv">Качество на входе</p><p class="pd">Чек-лист и тесты ловят дефекты до мерджа.</p></div>
+</div>
+</section>
+<section data-label="W1 · Промпты" data-screen-label="W1 почему промпты ломаются" data-speaker-notes="Дело не в модели, а в постановке. Модель менеджер отделов: что доверить ИИ, что проверять, что не отдавать — по цене ошибки и проверяемости." class="slide">
+<div class="lcol">
+<div class="eyebrow">Неделя 01</div>
+<h2 class="ttl">Почему промпты <em class="mk">ломаются</em></h2>
+<p class="lead">Дело не в модели, а в постановке. Модель «менеджер отделов»: что доверить ИИ, что проверять, что не отдавать.</p>
+<div class="formula">контекст · доверие · хаос · качество</div>
+</div>
+<div class="rcol"><canvas id="cnv-mgr" class="cnv"></canvas></div>
+</section>
+<section data-label="W2 · Спека" data-screen-label="W2 от задачи к спецификации" data-speaker-notes="Спека работает как контракт: агенту рамка, тебе критерий приёмки. Каждый её пункт сужает поведение ИИ — облако выходов стягивается к порядку." class="slide">
+<div class="lcol">
+<div class="eyebrow">Неделя 02</div>
+<h2 class="ttl">От задачи к <em class="mk">спецификации</em></h2>
+<p class="lead">Спека работает как контракт: агенту — рамка, тебе — критерий приёмки. Каждый пункт сужает поведение ИИ.</p>
+<div class="formula">цель · требования · ограничения · DoD · тесты</div>
+</div>
+<div class="rcol"><canvas id="cnv-spec" class="cnv"></canvas></div>
+</section>
+<section data-label="W3 · Контекст" data-screen-label="W3 управление контекстом" data-speaker-notes="Агент работает в твоих рамках: следует конвенциям и не трогает запретные файлы. Контекст пишется один раз и удешевляет каждую задачу." class="slide">
+<div class="lcol">
+<div class="eyebrow">Неделя 03</div>
+<h2 class="ttl">Управление <em class="mk">контекстом</em></h2>
+<p class="lead">Агент следует конвенциям и не трогает запретные файлы. Контекст пишется один раз — и удешевляет каждую задачу.</p>
+<div class="formula">AGENTS.md · CLAUDE.md · запретные зоны</div>
+</div>
+<div class="rcol"><canvas id="cnv-ctx" class="cnv"></canvas></div>
+</section>
+<section data-label="W4 · Агент" data-screen-label="W4 постановка задач агенту" data-speaker-notes="Не нажал и жду, а ведение по плану с контрольными точками. Ловишь дрейф от спеки и возвращаешь агента на маршрут в контрольной точке." class="slide">
+<div class="lcol">
+<div class="eyebrow">Неделя 04</div>
+<h2 class="ttl">Постановка задач <em class="mk">агенту</em></h2>
+<p class="lead">Не «нажал и жду», а ведение по плану с контрольными точками. Ловишь дрейф от спеки и возвращаешь агента на маршрут.</p>
+<div class="formula">scope · план · контрольные точки</div>
+</div>
+<div class="rcol"><canvas id="cnv-drift" class="cnv"></canvas></div>
+</section>
+<section data-label="W5 · Ревью" data-screen-label="W5 контроль качества" data-speaker-notes="AI-код правдоподобен по форме независимо от содержания. По чек-листу проходит в merge то, что в scope; дрейф и лишние правки отклоняются." class="slide">
+<div class="lcol">
+<div class="eyebrow">Неделя 05</div>
+<h2 class="ttl">Контроль качества <em class="mk">AI-кода</em></h2>
+<p class="lead">AI-код правдоподобен независимо от содержания. По чек-листу в merge проходит то, что в scope, — дрейф отклоняется.</p>
+<div class="formula">чек-лист · 6 осей · ≥80% дефектов</div>
+</div>
+<div class="rcol"><canvas id="cnv-gate" class="cnv"></canvas></div>
+</section>
+<section data-label="W6 · Тесты" data-screen-label="W6 тестирование" data-speaker-notes="Каждый acceptance criterion превращается в тест. Зелёный CI и честный coverage — доказательство, а не слова. Сломай поведение — тесты это ловят." class="slide">
+<div class="lcol">
+<div class="eyebrow">Неделя 06</div>
+<h2 class="ttl">Тестирование <em class="mk">AI-разработки</em></h2>
+<p class="lead">Каждый acceptance criterion превращается в тест. Зелёный CI и честный coverage — доказательство, а не слова.</p>
+<div class="formula">AC → тест · негативы · зелёный CI</div>
+</div>
+<div class="rcol"><canvas id="cnv-cov" class="cnv"></canvas></div>
+</section>
+<section data-label="W7 · Легаси" data-screen-label="W7 работа с легаси" data-speaker-notes="Разведка чужого кода, точка изменения, зона поражения. Characterization-тесты фиксируют текущее поведение — смежное остаётся целым." class="slide">
+<div class="lcol">
+<div class="eyebrow">Неделя 07</div>
+<h2 class="ttl">Работа с <em class="mk">легаси</em></h2>
+<p class="lead">Разведка чужого кода, точка изменения, зона поражения. Characterization-тесты фиксируют поведение — смежное цело.</p>
+<div class="formula">разведка · characterization · зона поражения</div>
+</div>
+<div class="rcol"><canvas id="cnv-blast" class="cnv"></canvas></div>
+</section>
+<section data-label="W8 · Защита" data-screen-label="W8 защита" data-speaker-notes="Цикл за 60 минут на незнакомой задаче — доказательство, что навык переносится. Защита по рубрике из 6 критериев, репозиторий открыт." class="slide">
+<div class="lcol">
+<div class="eyebrow">Неделя 08</div>
+<h2 class="ttl">Сквозной проект и <em class="mk">защита</em></h2>
+<p class="lead">Цикл за 60 минут на незнакомой задаче — навык переносится. Защита по рубрике из 6 критериев.</p>
+<div class="formula">репозиторий · рубрика · 6 критериев</div>
+</div>
+<div class="rcol"><canvas id="cnv-defense" class="cnv"></canvas></div>
+</section>
+<section data-label="Программа" data-screen-label="Программа курса" data-speaker-notes="Восемь недель, накопительный сквозной проект: задача, спека, контекст, реализация, тесты, ревью, доработка, защита. Процесс на любом инструменте." class="slide prog">
+<div class="phead"><div class="eyebrow">Программа</div><h2 class="ttl">Восемь недель, один <em class="mk">маршрут</em></h2></div>
+<div class="blocks">
+<div class="blk"><span class="bn">W1</span><h3 class="bh">Почему промпты ломаются</h3><div class="ba">карта доверия/контроля</div></div>
+<div class="blk"><span class="bn">W2</span><h3 class="bh">От задачи к спецификации</h3><div class="ba">спека · 5 секций</div></div>
+<div class="blk"><span class="bn">W3</span><h3 class="bh">Управление контекстом</h3><div class="ba">AGENTS.md / CLAUDE.md</div></div>
+<div class="blk"><span class="bn">W4</span><h3 class="bh">Постановка задач агенту</h3><div class="ba">agent plan + PR</div></div>
+<div class="blk"><span class="bn">W5</span><h3 class="bh">Контроль качества</h3><div class="ba">чек-лист ревью</div></div>
+<div class="blk"><span class="bn">W6</span><h3 class="bh">Тестирование</h3><div class="ba">тесты + зелёный CI</div></div>
+<div class="blk"><span class="bn">W7</span><h3 class="bh">Работа с легаси</h3><div class="ba">PR в чужой код</div></div>
+<div class="blk"><span class="bn">W8</span><h3 class="bh">Сквозной проект и защита</h3><div class="ba">репозиторий + защита</div></div>
+</div>
+<div class="online"><span class="ol">На любом инструменте</span><div class="chips"><span class="chip">Cursor</span><span class="chip">Claude Code</span><span class="chip">Copilot</span><span class="chip">Git / GitHub Actions</span><span class="chip">PyTest · Jest</span><span class="chip">Gherkin · EARS</span><span class="chip">Spec Kit</span></div></div>
+</section>
+<section data-label="Формат" data-screen-label="Формат обучения" data-speaker-notes="Blended: короткая теория до воркшопа, живой воркшоп 120 минут как ядро, сквозной проект на своей рабочей задаче, защита перед экспертом. 70% практики." class="slide fmt">
+<div class="phead"><div class="eyebrow">Формат обучения</div><h2 class="ttl">Теория до, практика <em class="mk">руками</em></h2></div>
+<div class="tiles">
+<div class="tile"><div class="glyph" style="background:var(--green-100);color:var(--green-700)">▶</div><p class="tt">Live-воркшопы</p><p class="td">8 × 120 минут — ядро курса, 70% практики.</p></div>
+<div class="tile"><div class="glyph" style="background:var(--ink-900);color:var(--green-300)">&lt;/&gt;</div><p class="tt">Асинхрон</p><p class="td">Короткая теория до воркшопа: 2 урока + квиз.</p></div>
+<div class="tile"><div class="glyph" style="background:var(--sun-100);color:var(--sun-700)">Σ</div><p class="tt">Сквозной проект</p><p class="td">Своя рабочая задача через весь курс до защиты.</p></div>
+<div class="tile"><div class="glyph" style="background:var(--coral-50);color:var(--coral-700)">⚙</div><p class="tt">Инструменты</p><p class="td">Cursor · Claude Code · Copilot — процесс на любом.</p></div>
+<div class="tile"><div class="glyph" style="background:var(--green-100);color:var(--green-700)">★</div><p class="tt">Защита</p><p class="td">Публичный репозиторий и полный цикл в коммитах.</p></div>
+</div>
+</section>
+<section data-label="Старт" data-screen-label="Призыв к действию" data-speaker-notes="Управляй ИИ, а не угадывай промптами. Старт 04.08.26, для middle/senior с опытом работы с AI-агентами." class="slide cta">
+<canvas id="cnv-cta" class="cnv"></canvas>
+<div class="ctac">
+<div class="ceye">Старт 04.08.26</div>
+<h2 class="ctah">Управляй ИИ — <em class="mk">не угадывай</em> промптами</h2>
+<div class="btn">Записаться на курс</div>
+<div class="ctasub">8 недель · middle/senior · сквозной проект</div>
+</div>
+</section>
+</x-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount(){
+    const C={green:'#3fb04b',green6:'#0a8754',green4:'#6bc44d',green3:'#8fd770',sun:'#ffd84d',sun5:'#f5b800',coral:'#ff7a5c',ink:'#0a1a10',grid:'rgba(255,255,255,0.08)',gridb:'rgba(255,255,255,0.18)',mute:'rgba(255,255,255,0.55)'};
+    const arrow=(ctx,x1,y1,x2,y2,col,lw)=>{ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=lw;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();const a=Math.atan2(y2-y1,x2-x1),hl=9+lw*1.3;ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-hl*Math.cos(a-0.42),y2-hl*Math.sin(a-0.42));ctx.lineTo(x2-hl*Math.cos(a+0.42),y2-hl*Math.sin(a+0.42));ctx.closePath();ctx.fill();};
+    const rr=(ctx,x,y,w,h,r)=>{ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();};
+
+    const cycle=(ctx,w,h,t)=>{
+      const cx=w/2,cy=h/2-8,R=Math.min(w,h)*0.33,N=8;
+      const stages=['задача','спека','контекст','план','код','тесты','ревью','защита'];
+      const ang=i=>-Math.PI/2+i/N*Math.PI*2;
+      ctx.strokeStyle=C.grid;ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);ctx.stroke();
+      for(let i=0;i<N;i++){const m=ang(i)+Math.PI/N;const bx=cx+R*Math.cos(m),by=cy+R*Math.sin(m),tx=-Math.sin(m),ty=Math.cos(m);arrow(ctx,bx-tx*10,by-ty*10,bx+tx*10,by+ty*10,'rgba(107,196,77,0.35)',2);}
+      const period=9,prog=(t/period)%1,pa=-Math.PI/2+prog*Math.PI*2,cur=Math.round(prog*N)%N;
+      for(let i=0;i<N;i++){const a=ang(i),nx=cx+R*Math.cos(a),ny=cy+R*Math.sin(a);let d=Math.abs(((a-pa+Math.PI*3)%(Math.PI*2))-Math.PI);const lit=Math.max(0,1-d/0.55);
+        if(lit>0){ctx.fillStyle=C.green3;ctx.globalAlpha=lit*0.5;ctx.beginPath();ctx.arc(nx,ny,20,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;}
+        ctx.fillStyle=lit>0.15?C.green:C.ink;ctx.strokeStyle=lit>0.15?C.green3:'rgba(107,196,77,0.55)';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(nx,ny,9,0,Math.PI*2);ctx.fill();ctx.stroke();
+        const co=Math.cos(a),lx=nx+co*22,ly=ny+Math.sin(a)*22+5;ctx.font='500 16px Geist Mono, monospace';ctx.fillStyle=lit>0.15?'#fff':C.mute;ctx.textAlign=co>0.25?'left':co<-0.25?'right':'center';ctx.fillText(stages[i],lx,ly);}
+      ctx.textAlign='center';
+      const tx=cx+R*Math.cos(pa),ty=cy+R*Math.sin(pa);ctx.fillStyle=C.sun;ctx.shadowColor=C.sun;ctx.shadowBlur=20;ctx.beginPath();ctx.arc(tx,ty,8,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;
+      ctx.font='500 14px Geist Mono, monospace';ctx.fillStyle='rgba(255,255,255,0.4)';ctx.fillText('SPEC-DRIVEN CYCLE',cx,cy-14);
+      ctx.font='800 30px Manrope, sans-serif';ctx.fillStyle=C.green3;ctx.fillText(stages[cur].toUpperCase(),cx,cy+18);
+      ctx.textAlign='left';
+    };
+
+    const manager=(ctx,w,h,t)=>{
+      const mx=w*0.24,my=h/2,dx=w*0.6;
+      const depts=[{y:h*0.22,l:'рутина / шаблонный код',v:'trust'},{y:h*0.5,l:'бизнес-логика',v:'check'},{y:h*0.78,l:'безопасность / деньги',v:'block'}];
+      const colOf=v=>v==='trust'?C.green:v==='check'?C.sun:C.coral;
+      depts.forEach(d=>{if(d.v==='block'){ctx.strokeStyle='rgba(255,122,92,0.4)';ctx.setLineDash([7,7]);}else{ctx.strokeStyle=C.grid;ctx.setLineDash([]);}ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(mx,my);ctx.lineTo(dx,d.y);ctx.stroke();ctx.setLineDash([]);
+        if(d.v==='block'){const px=mx+(dx-mx)*0.5,py=my+(d.y-my)*0.5;ctx.strokeStyle=C.coral;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(px-7,py-7);ctx.lineTo(px+7,py+7);ctx.moveTo(px+7,py-7);ctx.lineTo(px-7,py+7);ctx.stroke();}});
+      depts.forEach((d,i)=>{if(d.v==='block')return;const ph=(t*0.5+i*0.4)%1,x=mx+(dx-mx)*ph,y=my+(d.y-my)*ph;ctx.fillStyle=colOf(d.v);ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill();});
+      ctx.fillStyle=C.ink;ctx.strokeStyle=C.sun;ctx.lineWidth=3;ctx.beginPath();ctx.arc(mx,my,28,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.font='700 17px Geist Mono, monospace';ctx.fillStyle=C.sun;ctx.textAlign='center';ctx.fillText('ТЫ',mx,my+6);ctx.fillStyle=C.mute;ctx.font='500 14px Geist Mono, monospace';ctx.fillText('МЕНЕДЖЕР',mx,my+48);
+      depts.forEach(d=>{const col=colOf(d.v);ctx.fillStyle=C.ink;ctx.strokeStyle=col;ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(dx,d.y,19,0,Math.PI*2);ctx.fill();ctx.stroke();
+        if(d.v==='trust'){ctx.strokeStyle=C.green3;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(dx-7,d.y);ctx.lineTo(dx-2,d.y+6);ctx.lineTo(dx+8,d.y-6);ctx.stroke();}
+        else if(d.v==='check'){ctx.strokeStyle=C.sun;ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(dx-2,d.y-2,6,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.moveTo(dx+3,d.y+3);ctx.lineTo(dx+9,d.y+9);ctx.stroke();}
+        else{ctx.strokeStyle=C.coral;ctx.lineWidth=2.5;ctx.strokeRect(dx-6,d.y-1,12,9);ctx.beginPath();ctx.arc(dx,d.y-1,5,Math.PI,0);ctx.stroke();}
+        const cat=d.v==='trust'?'доверить':d.v==='check'?'проверять':'не отдавать';ctx.font='500 17px Geist Mono, monospace';ctx.fillStyle='#fff';ctx.textAlign='left';ctx.fillText(d.l,dx+32,d.y-4);ctx.fillStyle=col;ctx.font='600 14px Geist Mono, monospace';ctx.fillText(cat,dx+32,d.y+18);});
+      ctx.textAlign='left';
+    };
+
+    const constrain=(ctx,w,h,t,a)=>{
+      const total=5;
+      if(!a.pts){a.reset=()=>{a.pts=[];const cols=8,rows=6,gx0=w*0.56,gy0=h*0.24,gw=w*0.34,gh=h*0.52;for(let r=0;r<rows;r++)for(let cc=0;cc<cols;cc++){a.pts.push({tx:gx0+cc/(cols-1)*gw,ty:gy0+r/(rows-1)*gh,cx:w*0.5+Math.random()*w*0.44,cy:h*0.12+Math.random()*h*0.72,ph:Math.random()*6.28});}a.locked=0;a.lock=t;};a.reset();}
+      if(a.locked<total&&t-a.lock>1.05){a.locked++;a.lock=t;}
+      if(a.locked>=total&&t-a.lock>2.4){a.reset();}
+      const f=a.locked/total,e=f*f*(3-2*f);
+      const px=w*0.06,py=h*0.2,pw=w*0.36,ph=h*0.58;
+      ctx.fillStyle='rgba(255,255,255,0.035)';ctx.strokeStyle='rgba(255,255,255,0.12)';ctx.lineWidth=1.5;rr(ctx,px,py,pw,ph,16);ctx.fill();ctx.stroke();
+      ctx.font='500 15px Geist Mono, monospace';ctx.fillStyle=C.sun;ctx.textAlign='left';ctx.fillText('СПЕКА',px+24,py+34);
+      for(let i=0;i<total;i++){const ly=py+66+i*38,on=i<a.locked;
+        if(on){ctx.fillStyle=C.green;ctx.strokeStyle=C.green3;ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(px+30,ly,8,0,Math.PI*2);ctx.fill();ctx.strokeStyle=C.ink;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(px+26,ly);ctx.lineTo(px+29,ly+3);ctx.lineTo(px+34,ly-4);ctx.stroke();ctx.strokeStyle=C.green3;ctx.globalAlpha=0.85;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(px+46,ly);ctx.lineTo(px+pw-26,ly);ctx.stroke();ctx.globalAlpha=1;}
+        else{ctx.strokeStyle='rgba(255,255,255,0.2)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(px+30,ly,7,0,Math.PI*2);ctx.stroke();ctx.setLineDash([5,6]);ctx.beginPath();ctx.moveTo(px+46,ly);ctx.lineTo(px+pw-26,ly);ctx.stroke();ctx.setLineDash([]);}}
+      a.pts.forEach(p=>{const jit=(1-e),jx=Math.sin(t*2.2+p.ph)*15*jit,jy=Math.cos(t*1.8+p.ph)*15*jit,x=p.cx+(p.tx-p.cx)*e+jx,y=p.cy+(p.ty-p.cy)*e+jy;ctx.fillStyle=e>0.55?C.green3:(e>0.25?C.sun:C.coral);ctx.globalAlpha=0.5+e*0.5;ctx.beginPath();ctx.arc(x,y,4.5,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;});
+      ctx.font='500 15px Geist Mono, monospace';ctx.fillStyle=a.locked>=total?C.green3:C.mute;ctx.textAlign='left';ctx.fillText(a.locked>=total?'выходы предсказуемы →':'выходы агента (хаос)',w*0.56,h*0.17);
+      ctx.textAlign='left';
+    };
+
+    const boundaries=(ctx,w,h,t,a)=>{
+      const cols=6,rows=4,pad=72,gx=pad,gy=h*0.15,gw=w-2*pad,gh=h*0.7,cw=gw/cols,ch=gh/rows;
+      const cell=i=>({cx:gx+((i%cols)+0.5)*cw,cy:gy+(Math.floor(i/cols)+0.5)*ch,i});
+      if(!a.forb){a.forb=new Set();while(a.forb.size<5)a.forb.add(Math.floor(Math.random()*cols*rows));a.done=new Set();a.pos={x:gx+cw*0.5,y:gy+ch*0.5};a.target=null;a.next=t;a.flash=null;}
+      if(!a.target&&t>a.next){const r=Math.random();
+        if(r<0.3){const fs=[...a.forb];a.target=cell(fs[Math.floor(Math.random()*fs.length)]);a.target.bad=true;}
+        else{const av=[];for(let i=0;i<cols*rows;i++)if(!a.forb.has(i)&&!a.done.has(i))av.push(i);if(!av.length){a.done.clear();for(let i=0;i<cols*rows;i++)if(!a.forb.has(i))av.push(i);}a.target=cell(av[Math.floor(Math.random()*av.length)]);a.target.bad=false;}}
+      if(a.target){const tx=a.target.cx,ty=a.target.cy,dx=tx-a.pos.x,dy=ty-a.pos.y,dist=Math.hypot(dx,dy),stop=a.target.bad?cw*0.5:2,sp=Math.min(dist,9);
+        if(dist>stop){a.pos.x+=dx/dist*sp;a.pos.y+=dy/dist*sp;}
+        else{if(a.target.bad){a.flash={x:tx,y:ty,bad:true,t};a.target=null;a.next=t+0.5;}else{a.done.add(a.target.i);a.flash={x:tx,y:ty,bad:false,t};a.target=null;a.next=t+0.3;}}}
+      for(let i=0;i<cols*rows;i++){const c=cell(i),x=c.cx-cw*0.42,y=c.cy-ch*0.4,tw=cw*0.84,th=ch*0.8,forb=a.forb.has(i),done=a.done.has(i);
+        if(forb){ctx.fillStyle='rgba(255,122,92,0.08)';ctx.strokeStyle='rgba(255,122,92,0.5)';}
+        else if(done){ctx.fillStyle='rgba(63,176,75,0.16)';ctx.strokeStyle='rgba(107,196,77,0.6)';}
+        else{ctx.fillStyle='rgba(255,255,255,0.03)';ctx.strokeStyle='rgba(255,255,255,0.12)';}
+        ctx.lineWidth=1.5;rr(ctx,x,y,tw,th,8);ctx.fill();ctx.stroke();
+        if(forb){ctx.strokeStyle='rgba(255,122,92,0.7)';ctx.lineWidth=2;ctx.strokeRect(c.cx-6,c.cy,12,9);ctx.beginPath();ctx.arc(c.cx,c.cy,5,Math.PI,0);ctx.stroke();}}
+      if(a.flash){const age=t-a.flash.t;if(age<0.5){const al=1-age/0.5,col=a.flash.bad?C.coral:C.green3;ctx.globalAlpha=al;ctx.strokeStyle=col;ctx.lineWidth=3;ctx.beginPath();ctx.arc(a.flash.x,a.flash.y,14+age*30,0,Math.PI*2);ctx.stroke();
+        if(a.flash.bad){ctx.beginPath();ctx.moveTo(a.flash.x-7,a.flash.y-7);ctx.lineTo(a.flash.x+7,a.flash.y+7);ctx.moveTo(a.flash.x+7,a.flash.y-7);ctx.lineTo(a.flash.x-7,a.flash.y+7);ctx.stroke();}
+        else{ctx.beginPath();ctx.moveTo(a.flash.x-7,a.flash.y);ctx.lineTo(a.flash.x-2,a.flash.y+6);ctx.lineTo(a.flash.x+8,a.flash.y-6);ctx.stroke();}ctx.globalAlpha=1;}else a.flash=null;}
+      ctx.fillStyle=C.sun;ctx.shadowColor=C.sun;ctx.shadowBlur=16;ctx.beginPath();ctx.arc(a.pos.x,a.pos.y,8,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;
+      ctx.font='500 13px Geist Mono, monospace';ctx.fillStyle=C.mute;ctx.textAlign='left';ctx.fillText('AGENT',a.pos.x+13,a.pos.y+4);
+      const ly=h*0.93;ctx.font='500 15px Geist Mono, monospace';ctx.textAlign='left';
+      ctx.fillStyle='rgba(63,176,75,0.55)';ctx.beginPath();ctx.arc(80,ly-4,7,0,Math.PI*2);ctx.fill();ctx.fillStyle=C.mute;ctx.fillText('разрешено — агент правит',96,ly);
+      ctx.strokeStyle='rgba(255,122,92,0.75)';ctx.lineWidth=2;ctx.strokeRect(w*0.52-6,ly-8,12,9);ctx.beginPath();ctx.arc(w*0.52,ly-8,5,Math.PI,0);ctx.stroke();ctx.fillStyle=C.mute;ctx.fillText('запрет — не трогает',w*0.52+18,ly);
+    };
+
+    const drift=(ctx,w,h,t,a)=>{
+      const pad=95,y0=h/2,x0=pad,x1=w-pad,NC=4;
+      if(!a.dirs||a.wrap===undefined){a.dirs=[];for(let i=0;i<NC;i++)a.dirs.push((Math.random()<0.5?-1:1)*(0.7+Math.random()*0.5));a.wrap=0;}
+      const period=7;let s=(t/period)%1;if(s<a.wrap){a.dirs=[];for(let i=0;i<NC;i++)a.dirs.push((Math.random()<0.5?-1:1)*(0.7+Math.random()*0.5));}a.wrap=s;
+      ctx.strokeStyle='rgba(107,196,77,0.5)';ctx.lineWidth=2;ctx.setLineDash([8,7]);ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y0);ctx.stroke();ctx.setLineDash([]);
+      ctx.font='500 14px Geist Mono, monospace';ctx.fillStyle=C.mute;ctx.textAlign='left';ctx.fillText('план по спеке',x0,y0-h*0.34);
+      const seg=s*NC,si=Math.min(NC-1,Math.floor(seg)),sp=seg-si,drf=Math.sin(sp*Math.PI)*(h*0.16)*a.dirs[si],ax=x0+s*(x1-x0),ay=y0+drf;
+      if(!a.trail)a.trail=[];a.trail.push({x:ax,y:ay,off:Math.abs(drf)});if(a.trail.length>44)a.trail.shift();
+      a.trail.forEach((p,i)=>{const al=i/a.trail.length,bad=p.off>h*0.05;ctx.fillStyle=bad?'rgba(255,122,92,'+(al*0.65)+')':'rgba(107,196,77,'+(al*0.5)+')';ctx.beginPath();ctx.arc(p.x,p.y,3,0,Math.PI*2);ctx.fill();});
+      if(Math.abs(drf)>h*0.06&&sp>0.15&&sp<0.7){ctx.font='600 15px Geist Mono, monospace';ctx.fillStyle=C.coral;ctx.textAlign='center';ctx.fillText('дрейф от спеки',ax,ay+(drf>0?28:-18));}
+      if(sp>0.7&&Math.abs(drf)>h*0.05){const nx=x0+((si+1)/NC)*(x1-x0);arrow(ctx,ax,ay,nx,y0,C.coral,2);ctx.font='600 15px Geist Mono, monospace';ctx.fillStyle=C.green3;ctx.textAlign='center';ctx.fillText('коррекция',(ax+nx)/2+8,(ay+y0)/2-12);}
+      for(let i=0;i<=NC;i++){const cx=x0+i/NC*(x1-x0),passed=s>=i/NC;ctx.fillStyle=C.ink;ctx.strokeStyle=passed?C.green3:'rgba(107,196,77,0.4)';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(cx,y0,8,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.font='500 13px Geist Mono, monospace';ctx.fillStyle=C.mute;ctx.textAlign='center';ctx.fillText('CP'+i,cx,y0+28);}
+      ctx.fillStyle=Math.abs(drf)>h*0.05?C.coral:C.sun;ctx.shadowColor=ctx.fillStyle;ctx.shadowBlur=14;ctx.beginPath();ctx.arc(ax,ay,9,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;
+      ctx.textAlign='left';
+    };
+
+    const gate=(ctx,w,h,t,a)=>{
+      const agentX=w*0.14,gateX=w*0.58,mergeX=w*0.86,baseY=h*0.52;
+      if(!a.cards){a.cards=[];a.merged=0;a.spawn=t-0.6;a.lastT=t;a.slot=0;}
+      const dt=Math.min(0.05,t-a.lastT);a.lastT=t;
+      if(t-a.spawn>0.8){a.spawn=t;const good=Math.random()<0.6,lane=(a.slot%3-1);a.slot++;a.cards.push({x:agentX,y:baseY+lane*50,vx:150,good,st:'flow',fade:1,vy:0});}
+      for(let i=a.cards.length-1;i>=0;i--){const c=a.cards[i];
+        if(c.st==='flow'){c.x+=c.vx*dt;if(c.x>=gateX){if(c.good)c.st='pass';else{c.st='reject';c.vx=-100;c.vy=(c.y<baseY?-1:1)*80;}}}
+        else if(c.st==='pass'){c.x+=185*dt;if(c.y!==baseY)c.y+=(baseY-c.y)*Math.min(1,dt*6);if(c.x>=mergeX){a.merged=Math.min(8,a.merged+1);a.cards.splice(i,1);continue;}}
+        else if(c.st==='reject'){c.x+=c.vx*dt;c.y+=c.vy*dt;c.fade-=dt*1.05;if(c.fade<=0){a.cards.splice(i,1);continue;}}}
+      ctx.strokeStyle=C.grid;ctx.lineWidth=1.5;ctx.setLineDash([4,9]);ctx.beginPath();ctx.moveTo(agentX+28,baseY);ctx.lineTo(gateX,baseY);ctx.stroke();ctx.setLineDash([]);
+      ctx.strokeStyle=C.gridb;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(gateX,h*0.16);ctx.lineTo(gateX,h*0.86);ctx.stroke();
+      ctx.font='500 15px Geist Mono, monospace';ctx.fillStyle=C.sun;ctx.textAlign='center';ctx.fillText('РЕВЬЮ ✓',gateX,h*0.12);
+      for(let k=0;k<a.merged;k++){ctx.fillStyle='rgba(63,176,75,0.85)';rr(ctx,mergeX-4,baseY+72-k*18,54,13,3);ctx.fill();}
+      ctx.font='500 14px Geist Mono, monospace';ctx.fillStyle=C.mute;ctx.fillText('MERGED',mergeX+23,baseY+96);
+      const pl=(Math.sin(t*3)*0.5+0.5);ctx.strokeStyle=C.green3;ctx.globalAlpha=0.4*(1-pl);ctx.lineWidth=2;ctx.beginPath();ctx.arc(agentX,baseY,22+pl*14,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=1;
+      ctx.fillStyle=C.ink;ctx.strokeStyle=C.green3;ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(agentX,baseY,22,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.font='700 16px Geist Mono, monospace';ctx.fillStyle=C.green3;ctx.fillText('AI',agentX,baseY+6);ctx.font='500 14px Geist Mono, monospace';ctx.fillStyle=C.mute;ctx.fillText('АГЕНТ',agentX,baseY+44);
+      a.cards.forEach(c=>{ctx.globalAlpha=c.fade;const col=c.good?C.green:C.coral;ctx.fillStyle='rgba(255,255,255,0.04)';ctx.strokeStyle=col;ctx.lineWidth=2;rr(ctx,c.x-27,c.y-18,54,36,7);ctx.fill();ctx.stroke();ctx.strokeStyle=col;ctx.globalAlpha=c.fade*0.55;ctx.lineWidth=2;for(let l=0;l<2;l++){ctx.beginPath();ctx.moveTo(c.x-16,c.y-5+l*10);ctx.lineTo(c.x+16,c.y-5+l*10);ctx.stroke();}ctx.globalAlpha=c.fade;
+        if(c.st==='pass'){ctx.strokeStyle=C.green3;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(c.x-6,c.y);ctx.lineTo(c.x-1,c.y+5);ctx.lineTo(c.x+7,c.y-6);ctx.stroke();}
+        else if(c.st==='reject'){ctx.strokeStyle=C.coral;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(c.x-6,c.y-6);ctx.lineTo(c.x+6,c.y+6);ctx.moveTo(c.x+6,c.y-6);ctx.lineTo(c.x-6,c.y+6);ctx.stroke();}ctx.globalAlpha=1;});
+      ctx.textAlign='left';
+    };
+
+    const coverage=(ctx,w,h,t,a)=>{
+      const N=6,pad=90,x0=pad,rowH=(h*0.44)/N,y0=h*0.14;
+      if(a.p0===undefined)a.p0=t;
+      const cyc=(t-a.p0)%9;let filled,sab=false,phase;
+      if(cyc<3.6){filled=Math.min(N,Math.floor(cyc/0.6));phase='fill';}
+      else if(cyc<5.4){filled=N;phase='green';}
+      else if(cyc<7.4){filled=N;sab=true;phase='break';}
+      else{filled=N;phase='fixed';}
+      for(let i=0;i<N;i++){const y=y0+i*rowH,on=i<filled,red=sab&&i===2;
+        ctx.fillStyle=red?'rgba(255,122,92,0.18)':(on?'rgba(63,176,75,0.16)':'rgba(255,255,255,0.03)');ctx.strokeStyle=red?C.coral:(on?'rgba(107,196,77,0.6)':'rgba(255,255,255,0.12)');ctx.lineWidth=red?2.5:1.5;rr(ctx,x0,y,w-2*pad,rowH-10,8);ctx.fill();ctx.stroke();
+        const gx=x0+24,gy=y+(rowH-10)/2;if(red){ctx.strokeStyle=C.coral;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(gx-6,gy-6);ctx.lineTo(gx+6,gy+6);ctx.moveTo(gx+6,gy-6);ctx.lineTo(gx-6,gy+6);ctx.stroke();}
+        else if(on){ctx.strokeStyle=C.green3;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(gx-6,gy);ctx.lineTo(gx-1,gy+6);ctx.lineTo(gx+8,gy-6);ctx.stroke();}
+        else{ctx.strokeStyle='rgba(255,255,255,0.25)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(gx,gy,6,0,Math.PI*2);ctx.stroke();}
+        ctx.font='500 16px Geist Mono, monospace';ctx.fillStyle=red?C.coral:(on?'#fff':C.mute);ctx.textAlign='left';ctx.fillText('AC-'+(i+1)+' → test_'+(i+1),gx+24,gy+5);
+        if(red){ctx.textAlign='right';ctx.fillStyle=C.coral;ctx.font='700 14px Geist Mono, monospace';ctx.fillText('FAIL',w-pad-18,gy+5);ctx.textAlign='left';}}
+      const by=y0+N*rowH+14,bw=w-2*pad,cov=sab?0.83:filled/N;
+      ctx.fillStyle='rgba(255,255,255,0.06)';rr(ctx,x0,by,bw,20,10);ctx.fill();ctx.fillStyle=sab?C.coral:C.green;rr(ctx,x0,by,Math.max(20,bw*cov),20,10);ctx.fill();
+      ctx.font='500 14px Geist Mono, monospace';ctx.fillStyle=C.mute;ctx.textAlign='left';ctx.fillText('COVERAGE '+Math.round(cov*100)+'%',x0,by+40);
+      const ciGreen=(phase==='green'||phase==='fixed');ctx.font='700 16px Geist Mono, monospace';ctx.fillStyle=ciGreen?C.green3:(sab?C.coral:C.mute);ctx.textAlign='right';ctx.fillText(ciGreen?'CI ✓':(sab?'CI ✗':'CI …'),w-pad,y0-16);ctx.textAlign='left';
+      let cap,col;
+      if(phase==='fill'){cap='каждый AC → свой тест';col=C.mute;}
+      else if(phase==='green'){cap='все критерии зелёные · CI ✓';col=C.green3;}
+      else if(phase==='break'){cap='сломали поведение → тест поймал';col=C.coral;}
+      else{cap='поправили → снова зелёно';col=C.green3;}
+      const capY=by+62;ctx.font='600 18px Geist Mono, monospace';const cwid=ctx.measureText(cap).width+40;
+      ctx.fillStyle=phase==='break'?'rgba(255,122,92,0.12)':'rgba(255,255,255,0.05)';ctx.strokeStyle=col;ctx.lineWidth=1.5;rr(ctx,x0,capY,cwid,40,20);ctx.fill();ctx.stroke();
+      ctx.fillStyle=col;ctx.textAlign='left';ctx.fillText(cap,x0+20,capY+26);
+    };
+
+    const blast=(ctx,w,h,t,a)=>{
+      if(!a.nodes){a.nodes=[];const cx=w/2,cy=h/2;a.center={x:cx,y:cy};[[0.3,-0.55],[0.62,-0.18],[0.6,0.32],[0.22,0.56],[-0.3,0.52],[-0.62,0.16],[-0.56,-0.36],[-0.16,-0.6]].forEach(r=>a.nodes.push({x:cx+r[0]*w*0.4,y:cy+r[1]*h*0.62}));a.p0=t;}
+      const cx=a.center.x,cy=a.center.y,cyc=(t-a.p0)%6,contained=cyc>1.2,maxR=contained?h*0.24:9999,rr0=cyc*180;
+      a.nodes.forEach(n=>{ctx.strokeStyle=C.grid;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(n.x,n.y);ctx.stroke();});
+      for(let i=0;i<a.nodes.length;i++){const n=a.nodes[i],m=a.nodes[(i+1)%a.nodes.length];ctx.strokeStyle='rgba(255,255,255,0.05)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(n.x,n.y);ctx.lineTo(m.x,m.y);ctx.stroke();}
+      if(cyc<2.6){for(let k=0;k<2;k++){const rad=(cyc-k*0.5)*180;if(rad>0){const clip=Math.min(rad,maxR);ctx.strokeStyle=rad>maxR?'rgba(107,196,77,0.5)':'rgba(255,122,92,'+Math.max(0,0.6-rad/520)+')';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(cx,cy,clip,0,Math.PI*2);ctx.stroke();}}}
+      if(contained){const app=Math.min(1,(cyc-1.2)/0.5);ctx.strokeStyle=C.green3;ctx.lineWidth=3;ctx.setLineDash([7,6]);ctx.globalAlpha=0.85;ctx.beginPath();ctx.arc(cx,cy,h*0.24,-Math.PI/2,-Math.PI/2+Math.PI*2*app);ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=1;ctx.font='500 14px Geist Mono, monospace';ctx.fillStyle=C.green3;ctx.textAlign='center';ctx.fillText('characterization tests',cx,cy-h*0.24-12);}
+      a.nodes.forEach(n=>{const dist=Math.hypot(n.x-cx,n.y-cy),reached=rr0>dist,risk=reached&&!contained;ctx.fillStyle=C.ink;ctx.strokeStyle=risk?C.coral:(contained?C.green4:'rgba(107,196,77,0.6)');ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(n.x,n.y,12,0,Math.PI*2);ctx.fill();ctx.stroke();});
+      ctx.fillStyle=C.sun;ctx.shadowColor=C.sun;ctx.shadowBlur=18;ctx.beginPath();ctx.arc(cx,cy,15,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.font='700 15px Geist Mono, monospace';ctx.fillStyle=C.ink;ctx.textAlign='center';ctx.fillText('Δ',cx,cy+6);ctx.font='500 14px Geist Mono, monospace';ctx.fillStyle=C.mute;ctx.fillText('точка изменения',cx,cy+42);if(contained){ctx.fillStyle=C.green3;ctx.fillText('смежное цело',cx,cy+h*0.24+32);}ctx.textAlign='left';
+    };
+
+    const anims=[
+      {id:'cnv-title',draw:cycle},{id:'cnv-mgr',draw:manager},{id:'cnv-spec',draw:constrain},
+      {id:'cnv-ctx',draw:boundaries},{id:'cnv-drift',draw:drift},{id:'cnv-gate',draw:gate},
+      {id:'cnv-cov',draw:coverage},{id:'cnv-blast',draw:blast},{id:'cnv-defense',draw:cycle},{id:'cnv-cta',draw:cycle}
+    ];
+    const sizes={};const start=performance.now();
+    const frame=()=>{const t=(performance.now()-start)/1000;for(const a of anims){const c=document.getElementById(a.id);if(!c)continue;const cw=c.clientWidth,ch=c.clientHeight;if(!cw||!ch)continue;const dpr=Math.min(2,window.devicePixelRatio||1);if(sizes[a.id]!==cw+'x'+ch){c.width=cw*dpr;c.height=ch*dpr;sizes[a.id]=cw+'x'+ch;}const ctx=c.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,cw,ch);ctx.fillStyle=C.ink;ctx.fillRect(0,0,cw,ch);if(!a.st)a.st={};ctx.textAlign='left';a.draw(ctx,cw,ch,t,a.st);}};
+    this._timer=setInterval(frame,1000/30);frame();
+  }
+  componentWillUnmount(){if(this._timer)clearInterval(this._timer);}
+  renderVals(){return {};}
+}
+</script>
+</body>
+</html>
