@@ -1,0 +1,15 @@
+# Normalize line endings: LF in repo and on checkout (no CRLF churn on Windows)
+* text=auto eol=lf
+
+# Binary assets — never touch
+*.docx binary
+*.pptx binary
+*.xlsx binary
+*.pdf  binary
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.woff binary
+*.woff2 binary

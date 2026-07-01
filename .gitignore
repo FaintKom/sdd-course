@@ -6,6 +6,10 @@
 # Внутренний экспорт (xlsx деливербл)
 01-deliverables/
 
+# OAuth секрет — НЕ коммитить
+tools/.gauth.json
+tools/gauth_exchange.py
+
 # OS/junk
 Thumbs.db
 .DS_Store
