@@ -13,7 +13,7 @@ brownfield/легаси, governance на команду, drift detection, и gra
 ## Backbone (де-факто стандарт)
 1. **Governance первым** — Constitution (Spec Kit) / Steering files (Kiro) / CLAUDE.md+AGENTS.md (Udemy).
 2. **Specify** — что/зачем, без реализации; user stories + acceptance criteria; измеримый успех.
-3. **Clarify** — явный гейт устранения неоднозначности (`NEEDS CLARIFICATION`) ДО планирования.
+3. **Clarify** — явный шлюз устранения неоднозначности (`NEEDS CLARIFICATION`) ДО планирования.
 4. **Plan** — архитектура/решения под существующий код + конституцию.
 5. **Tasks** — атомарные, ревьюируемые, с зависимостями (пометка параллельных).
 6. **Implement** — агент выполняет, human-in-the-loop, контроль дрейфа.
