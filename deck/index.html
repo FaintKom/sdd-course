@@ -62,30 +62,30 @@
 </style>
 </helmet>
 <x-import component-from-global-scope="deck-stage" from="./deck-stage.js" width="1920" height="1080" hint-size="100%,100%">
-<section data-label="Титул" data-screen-label="Титул" data-speaker-notes="Управляемая разработка с ИИ (Spec-Driven Development). Ты управляешь ИИ через спецификацию и контроль качества, а не угадываешь промптами. 8 недель, старт 04.08.26." class="slide">
+<section data-label="Титул" data-screen-label="Титул" data-speaker-notes="Управляемая разработка с ИИ (Spec-Driven Development). Ты управляешь ИИ через спецификацию и контроль качества. 8 недель, старт 04.08.26." class="slide">
 <div class="lcol">
 <div class="wm">prog<i>lib</i></div>
 <div class="eyebrow">Курс · Spec-Driven Development</div>
 <h1 class="ttl-xl">Управляемая разработка с <em class="mk">ИИ</em></h1>
-<p class="lead">Ты управляешь ИИ через спецификацию и контроль качества — не угадываешь промптами.</p>
+<p class="lead">Ты управляешь ИИ через спецификацию и контроль качества.</p>
 <div class="meta">8 недель · 8 воркшопов · сквозной проект · старт 04.08.26</div>
 </div>
 <div class="rcol"><canvas id="cnv-title" class="cnv"></canvas></div>
 </section>
-<section data-label="Большая идея" data-screen-label="Большая идея" data-speaker-notes="Задача проходит полный цикл: спека, контекст, агент, тесты, ревью. Ты ведёшь ИИ, а не переписываешь за ним." class="slide center">
-<h2 class="big">Не промпт-лотерея, а <em class="mk">управление</em></h2>
-<p class="sub">Задача проходит полный цикл: спека → контекст → агент → тесты → ревью. Ты ведёшь ИИ, а не переписываешь за ним.</p>
+<section data-label="Большая идея" data-screen-label="Большая идея" data-speaker-notes="Задача проходит полный цикл: спека, контекст, агент, тесты, ревью. Ты ведёшь ИИ через весь цикл и принимаешь готовый результат." class="slide center">
+<h2 class="big">Разработка под твоим <em class="mk">управлением</em></h2>
+<p class="sub">Задача проходит полный цикл: спека → контекст → агент → тесты → ревью. Ты ведёшь ИИ через весь цикл и принимаешь готовый результат.</p>
 <div class="pillars">
 <div class="pill"><span class="pk">Спецификация</span><p class="pv">Рамка для агента</p><p class="pd">Требования, ограничения, DoD — агент не додумывает.</p></div>
 <div class="pill"><span class="pk">Контекст</span><p class="pv">Границы проекта</p><p class="pd">Архитектура и запретные зоны в AGENTS.md.</p></div>
 <div class="pill"><span class="pk">Контроль</span><p class="pv">Качество на входе</p><p class="pd">Чек-лист и тесты ловят дефекты до мерджа.</p></div>
 </div>
 </section>
-<section data-label="W1 · Промпты" data-screen-label="W1 почему промпты ломаются" data-speaker-notes="Дело не в модели, а в постановке. Модель менеджер отделов: что доверить ИИ, что проверять, что не отдавать — по цене ошибки и проверяемости." class="slide">
+<section data-label="W1 · Промпты" data-screen-label="W1 почему промпты ломаются" data-speaker-notes="Причина сбоя — в постановке задачи. Модель менеджер отделов: что доверить ИИ, что проверять, что не отдавать — по цене ошибки и проверяемости." class="slide">
 <div class="lcol">
 <div class="eyebrow">Неделя 01</div>
 <h2 class="ttl">Почему промпты <em class="mk">ломаются</em></h2>
-<p class="lead">Дело не в модели, а в постановке. Модель «менеджер отделов»: что доверить ИИ, что проверять, что не отдавать.</p>
+<p class="lead">Причина сбоя — в постановке задачи. Модель «менеджер отделов»: что доверить ИИ, что проверять, что не отдавать.</p>
 <div class="formula">контекст · доверие · хаос · качество</div>
 </div>
 <div class="rcol"><canvas id="cnv-mgr" class="cnv"></canvas></div>
@@ -108,11 +108,11 @@
 </div>
 <div class="rcol"><canvas id="cnv-ctx" class="cnv"></canvas></div>
 </section>
-<section data-label="W4 · Агент" data-screen-label="W4 постановка задач агенту" data-speaker-notes="Не нажал и жду, а ведение по плану с контрольными точками. Ловишь дрейф от спеки и возвращаешь агента на маршрут в контрольной точке." class="slide">
+<section data-label="W4 · Агент" data-screen-label="W4 постановка задач агенту" data-speaker-notes="Ведёшь агента по плану с контрольными точками. Ловишь дрейф от спеки и возвращаешь агента на маршрут в контрольной точке." class="slide">
 <div class="lcol">
 <div class="eyebrow">Неделя 04</div>
 <h2 class="ttl">Постановка задач <em class="mk">агенту</em></h2>
-<p class="lead">Не «нажал и жду», а ведение по плану с контрольными точками. Ловишь дрейф от спеки и возвращаешь агента на маршрут.</p>
+<p class="lead">Ведёшь агента по плану с контрольными точками. Ловишь дрейф от спеки и возвращаешь агента на маршрут.</p>
 <div class="formula">scope · план · контрольные точки</div>
 </div>
 <div class="rcol"><canvas id="cnv-drift" class="cnv"></canvas></div>
@@ -126,11 +126,11 @@
 </div>
 <div class="rcol"><canvas id="cnv-gate" class="cnv"></canvas></div>
 </section>
-<section data-label="W6 · Тесты" data-screen-label="W6 тестирование" data-speaker-notes="Каждый acceptance criterion превращается в тест. Зелёный CI и честный coverage — доказательство, а не слова. Сломай поведение — тесты это ловят." class="slide">
+<section data-label="W6 · Тесты" data-screen-label="W6 тестирование" data-speaker-notes="Каждый acceptance criterion превращается в тест. Зелёный CI и честный coverage доказывают, что код работает. Сломай поведение — тесты это ловят." class="slide">
 <div class="lcol">
 <div class="eyebrow">Неделя 06</div>
 <h2 class="ttl">Тестирование <em class="mk">AI-разработки</em></h2>
-<p class="lead">Каждый acceptance criterion превращается в тест. Зелёный CI и честный coverage — доказательство, а не слова.</p>
+<p class="lead">Каждый acceptance criterion превращается в тест. Зелёный CI и честный coverage — доказательство работоспособности.</p>
 <div class="formula">AC → тест · негативы · зелёный CI</div>
 </div>
 <div class="rcol"><canvas id="cnv-cov" class="cnv"></canvas></div>
@@ -177,11 +177,11 @@
 <div class="tile"><div class="glyph" style="background:var(--green-100);color:var(--green-700)">★</div><p class="tt">Защита</p><p class="td">Публичный репозиторий и полный цикл в коммитах.</p></div>
 </div>
 </section>
-<section data-label="Старт" data-screen-label="Призыв к действию" data-speaker-notes="Управляй ИИ, а не угадывай промптами. Старт 04.08.26, для middle/senior с опытом работы с AI-агентами." class="slide cta">
+<section data-label="Старт" data-screen-label="Призыв к действию" data-speaker-notes="Управляй ИИ через спецификацию и контроль. Старт 04.08.26, для middle/senior с опытом работы с AI-агентами." class="slide cta">
 <canvas id="cnv-cta" class="cnv"></canvas>
 <div class="ctac">
 <div class="ceye">Старт 04.08.26</div>
-<h2 class="ctah">Управляй ИИ — <em class="mk">не угадывай</em> промптами</h2>
+<h2 class="ctah">Возьми ИИ под <em class="mk">контроль</em></h2>
 <div class="btn">Записаться на курс</div>
 <div class="ctasub">8 недель · middle/senior · сквозной проект</div>
 </div>
